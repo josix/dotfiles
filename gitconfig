@@ -1,0 +1,9 @@
+[alias]
+	st = status
+[user]
+	email = wilson8507@gmail.com
+	name = wilson8507
+[core]
+	editor = vim
+[merge]
+	tool = vimdiff
