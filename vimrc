@@ -23,6 +23,7 @@ Plugin 'moskytw/luthadel.vim' " color scheme
 Plugin 'altercation/vim-colors-solarized' " color scheme
 Plugin 'vimwiki/vimwiki'
 
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -67,6 +68,9 @@ set relativenumber
 "setting the tab width"
 set tabstop=4
 set shiftwidth=4 "for entering >> and <<"
+"set indentation level symbol
+set listchars=tab:\»\ 
+set list
 "setting the cursor line "
 set cursorline
 "hi CursorLine cterm=NONE ctermbg=238 "ctermfg=white guibg=darkred guifg=white "cterm for color terminal term for black-white terminal, gui for gvim
