@@ -22,6 +22,7 @@ Plugin 'AutoComplPop'
 Plugin 'moskytw/luthadel.vim' " color scheme
 Plugin 'altercation/vim-colors-solarized' " color scheme
 Plugin 'vimwiki/vimwiki'
+Plugin 'majutsushi/tagbar'
 
 
 " All of your Plugins must be added before the following line
@@ -52,6 +53,9 @@ set t_Co=256 " Explicitly tell Vim that the terminal supports 256 colors
 let g:airline_powerline_fonts = 1
 let g:airline_theme='base16'
 
+"setting for tagbar
+set tags+=tags;/
+
 "===========================================setting status=====================================================
 " setting to open the file syntax, automaticlly dective file type like python, c...so as to show up the syntax
 syntax on
@@ -69,7 +73,7 @@ set relativenumber
 set tabstop=4
 set shiftwidth=4 "for entering >> and <<"
 "set indentation level symbol
-set listchars=tab:\»\ 
+set listchars=tab:\¦\ 
 set list
 "setting the cursor line "
 set cursorline
@@ -177,9 +181,11 @@ nn <leader>sv :source $MYVIMRC<cr>
 nn <c-h> gT
 nn <c-l> gt
 nn <leader>q :tabdo quit<cr>
-"============================================Mapping for NERDTree=======================================================
+"============================================Mapping for Plugin=======================================================
 "Toggling for NERDTree
 noremap <silent> <c-e> :NERDTreeToggle<cr>
+"Toggling for tagbar
+nn <silent> <F1> :TagbarToggle<cr>
 "============================================AutoCMD==============================================================
 "for automatically running or compiling file
 autocmd filetype python nn <buffer> <localleader>3 G:read! python3 %<cr>

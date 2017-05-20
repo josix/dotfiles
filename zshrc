@@ -3,7 +3,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:/opt/local/bin/:${PATH}"
 export PATH
 
 # Path to your oh-my-zsh installation.
@@ -97,3 +97,4 @@ alias fghost='sftp f103207425@ghost.cs.nccu.edu.tw'
 #alias vim="vim -p"
 alias wm5='python3 ~/selenium/school_redundant/wm5.py'
 alias nccucs="ssh -p 3322 sg35@140.119.221.77"
+alias wsm='ssh -p 22114 soslab@140.119.19.90'
