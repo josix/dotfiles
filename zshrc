@@ -7,7 +7,7 @@ PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:/opt/local/bin/:${PA
 export PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/wilson8507/.oh-my-zsh
+export ZSH=/Users/willison/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -89,7 +89,7 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ghost="ssh f103207425@ghost.cs.nccu.edu.tw"
-alias wilson='cd /Volumes/Data/wilson'
+alias wilson='cd ~/wilson'
 alias grep='grep --color=auto'
 alias ghost='ssh f103207425@ghost.cs.nccu.edu.tw'
 alias arches='ssh -p 3322 sg35@140.119.55.171 '
@@ -98,3 +98,6 @@ alias fghost='sftp f103207425@ghost.cs.nccu.edu.tw'
 alias wm5='python3 ~/selenium/school_redundant/wm5.py'
 alias nccucs="ssh -p 3322 sg35@140.119.221.77"
 alias wsm='ssh -p 22114 soslab@140.119.19.90'
+alias tmux='/usr/local/Cellar/tmux/2.3_3/bin/tmux'
+alias vim='/usr/local/Cellar/vim/8.0.0304/bin/vim'
+alias vimdiff='/usr/local/Cellar/vim/8.0.0304/bin/vimdiff'

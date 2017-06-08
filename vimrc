@@ -24,6 +24,10 @@ Plugin 'altercation/vim-colors-solarized' " color scheme
 Plugin 'vimwiki/vimwiki'
 Plugin 'majutsushi/tagbar'
 Plugin 'chrisbra/csv.vim'
+Plugin 'gorodinskiy/vim-coloresque'
+Plugin 'pangloss/vim-javascript'
+Plugin 'valloric/youcompleteme'
+
 
 
 " All of your Plugins must be added before the following line
