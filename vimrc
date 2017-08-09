@@ -24,10 +24,18 @@ Plugin 'altercation/vim-colors-solarized' " color scheme
 Plugin 'vimwiki/vimwiki'
 Plugin 'majutsushi/tagbar'
 Plugin 'chrisbra/csv.vim'
-Plugin 'gorodinskiy/vim-coloresque'
+Plugin 'valloric/youcompleteme' "need to complie
+Plugin 'marijnh/tern_for_vim'
+Plugin 'othree/html5.vim'
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'w0rp/ale'
+Plugin 'johngrib/vim-game-code-break'
+Plugin 'johngrib/vim-game-snake'
+Plugin 'flowtype/vim-flow'
+Plugin 'isruslan/vim-es6'
 Plugin 'pangloss/vim-javascript'
-Plugin 'valloric/youcompleteme'
-
+Plugin 'gorodinskiy/vim-coloresque'
 
 
 " All of your Plugins must be added before the following line
@@ -61,6 +69,26 @@ let g:airline_theme='base16'
 "setting for tagbar
 set tags+=tags;/
 
+"setting for youcompleteme
+let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_complete_in_comments = 1
+let g:ycm_semantic_completion_toggle = '<c-f>'
+let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
+let g:ycm_semantic_triggers = {
+   \   'css': [ 're!^\s{1,4}', 're!:\s+' ],
+   \ }
+
+"setting for tern
+let g:tern_show_argument_hints='on_hold'
+" and
+let g:tern_map_keys=1
+
+"setting for ESlint
+let g:syntastic_javascript_checkers=['eslint']
 "===========================================setting status=====================================================
 " setting to open the file syntax, automaticlly dective file type like python, c...so as to show up the syntax
 syntax on
@@ -77,9 +105,13 @@ set relativenumber
 "setting the tab width"
 set tabstop=4
 set shiftwidth=4 "for entering >> and <<"
+
 "set indentation level symbol
 set listchars=tab:\¦\ 
-set list
+"set list
+"setting for backspace like other apps
+set backspace=2
+set backspace=indent,eol,start
 "setting the cursor line "
 set cursorline
 "hi CursorLine cterm=NONE ctermbg=238 "ctermfg=white guibg=darkred guifg=white "cterm for color terminal term for black-white terminal, gui for gvim
@@ -197,3 +229,11 @@ autocmd filetype python nn <buffer> <localleader>3 G:read! python3 %<cr>
 autocmd filetype python nn <buffer> <localleader>2 G:read! python %<cr>
 autocmd filetype c nn <buffer> <localleader>c :!gcc %<cr>
 autocmd filetype cpp nn <buffer> <localleader>c :!g++ %<cr>
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+"use YCM in html
+set omnifunc=syntaxcomplete#Complete
+call tern#Enable()
+runtime after/ftplugin/javascript_tern.vim
+"set ft=html.javascript_tern
+"set ft=html.javascript
