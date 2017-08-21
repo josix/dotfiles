@@ -8,9 +8,9 @@ Plugin 'VundleVim/Vundle.vim'
 " My Bundles here:
 "
 " original repos on github
-Plugin 'itchyny/lightline.vim' "statusline
+"Plugin 'itchyny/lightline.vim' "statusline
 Plugin 'bling/vim-bufferline' "vim bufferline bar
-Plugin 'lokaltog/vim-powerline' "statusline
+"Plugin 'lokaltog/vim-powerline' "statusline
 Plugin 'bling/vim-airline' "statusline
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ervandew/supertab' "allows you to use <Tab> for all your insert
@@ -65,7 +65,10 @@ set encoding=utf-8 " Necessary to show Unicode glyphs
 set t_Co=256 " Explicitly tell Vim that the terminal supports 256 colors
 let g:airline_powerline_fonts = 1
 let g:airline_theme='base16'
+let g:airline#extensions#tabline#fnamemod = 1
+let g:airline#extensions#bufferline#enabled = 1
 
+let g:bufferline_fname_mod = ':~:.'
 "setting for tagbar
 set tags+=tags;/
 
@@ -89,6 +92,7 @@ let g:tern_map_keys=1
 
 "setting for ESlint
 let g:syntastic_javascript_checkers=['eslint']
+
 "===========================================setting status=====================================================
 " setting to open the file syntax, automaticlly dective file type like python, c...so as to show up the syntax
 syntax on
@@ -103,8 +107,8 @@ set relativenumber
 "hi LineNr ctermfg=228
 "hi CursorLineNr ctermfg=221
 "setting the tab width"
-set tabstop=4
-set shiftwidth=4 "for entering >> and <<"
+set tabstop=2 expandtab
+set shiftwidth=2 "for entering >> and <<"
 
 "set indentation level symbol
 set listchars=tab:\¦\ 
