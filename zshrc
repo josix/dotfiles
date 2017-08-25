@@ -7,7 +7,7 @@ PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:/opt/local/bin/:${PA
 export PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/willison/.oh-my-zsh
+export ZSH=/Users/wilson/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -50,13 +50,13 @@ COMPLETION_WAITING_DOTS="true"
 HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+# ZSH_CUSTOM='~/.oh-my-zsh/custom/'
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git extract z zsh-iterm-touchbar)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,7 +98,6 @@ alias fghost='sftp f103207425@ghost.cs.nccu.edu.tw'
 alias wm5='python3 ~/selenium/school_redundant/wm5.py'
 alias nccucs="ssh -p 3322 sg35@140.119.221.77"
 alias wsm='ssh -p 22114 soslab@140.119.19.90'
-alias tmux='/usr/local/Cellar/tmux/2.3_3/bin/tmux'
-alias vim='/usr/local/Cellar/vim/8.0.0304/bin/vim'
-alias vimdiff='/usr/local/Cellar/vim/8.0.0304/bin/vimdiff'
-alias pm2='~/wilson/Volvo_APP/node_modules/.bin/pm2'
+alias tmux='/usr/local/Cellar/tmux/2.5/bin/tmux'
+alias vim='/usr/local/Cellar/vim/8.0.0983/bin/vim'
+alias vimdiff='/usr/local/Cellar/vim/8.0.0983//bin/vimdiff'
