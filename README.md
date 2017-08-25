@@ -41,3 +41,17 @@ cd fonts
 cd ..
 rm -rf fonts
 ```
+4. create a directory of editing history
+```zsh
+mkdir -p ~/.vim/undodir
+```
+
+# for tmux
+1. install tmux
+```zsh
+brew install tmux
+```
+2. reload tmux config
+```zsh
+ tmux source-file ~/.tmux.conf
+```
