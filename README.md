@@ -41,7 +41,7 @@ cd fonts
 cd ..
 rm -rf fonts
 ```
-4. create Vim editing history directory
+4. create a directory of editing history
 ```zsh
 mkdir -p ~/.vim/undodir
 ```
