@@ -43,7 +43,7 @@ rm -rf fonts
 ```
 4. create Vim editing history directory
 ```zsh
-mkdir -p /.vim/undodir
+mkdir -p ~/.vim/undodir
 ```
 
 # for tmux
