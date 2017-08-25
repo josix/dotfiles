@@ -41,3 +41,13 @@ cd fonts
 cd ..
 rm -rf fonts
 ```
+
+# for tmux
+1. install tmux
+```zsh
+brew install tmux
+```
+2. reload tmux config
+```zsh
+ tmux source-file ~/.tmux.conf
+```
