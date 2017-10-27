@@ -2,8 +2,17 @@
 	st = status
 [user]
 	email = wilson8507@gmail.com
-	name = wilson8507
+	name = WilsonWong
 [core]
 	editor = vim
+	excludesfile = /Users/wilson/.gitignore_global
 [merge]
 	tool = vimdiff
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/wilson/.stCommitMsg

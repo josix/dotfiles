@@ -18,7 +18,7 @@ Plugin 'tpope/vim-fugitive' "status git branch
 Plugin 'ntpeters/vim-better-whitespace' "check the tailing space
 Plugin 'easymotion/vim-easymotion' "vim motion on speed
 Plugin 'scrooloose/nerdtree' "A tree explorer plugin for vim
-Plugin 'AutoComplPop'
+"Plugin 'AutoComplPop'
 Plugin 'moskytw/luthadel.vim' " color scheme
 Plugin 'altercation/vim-colors-solarized' " color scheme
 Plugin 'vimwiki/vimwiki'
@@ -36,6 +36,10 @@ Plugin 'flowtype/vim-flow'
 Plugin 'isruslan/vim-es6'
 Plugin 'pangloss/vim-javascript'
 Plugin 'gorodinskiy/vim-coloresque'
+Plugin 'mattn/emmet-vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'mxw/vim-jsx'
+Plugin 'matchit.zip'
 
 
 " All of your Plugins must be added before the following line
@@ -204,7 +208,7 @@ nmap <silent> <s-up> :wincmd k<cr>
 nmap <silent> <s-left> :wincmd h<cr>
 "shortcuts for buffers
 nmap <silent> <c-n> :bn<cr>
-nmap <silent> <c-p> :bp<cr>
+nmap <silent> <c-m> :bp<cr>
 "close current buffer and go to past bufferline
 nmap <silent> <leader>c :bp \|bd #<cr>
 "open buffer switch menu
@@ -216,12 +220,13 @@ inoremap <c-d> <esc>d0d$i
 "go to the end of one word when typing
 ino <c-z> <esc>ei
 "edit and source vimrc more quickly when using vim
-nnoremap <leader>ev :vs $MYVIMRC<cr>
+nnoremap <leader>ev :e $MYVIMRC<cr>
 nn <leader>sv :source $MYVIMRC<cr>
 "shortcuts for tab page
 nn <c-h> gT
 nn <c-l> gt
 nn <leader>q :tabdo quit<cr>
+nn <silent><leader>t :set hls!<cr>
 "============================================Mapping for Plugin=======================================================
 "Toggling for NERDTree
 noremap <silent> <c-e> :NERDTreeToggle<cr>

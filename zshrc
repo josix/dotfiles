@@ -101,3 +101,10 @@ alias wsm='ssh -p 22114 soslab@140.119.19.90'
 alias tmux='/usr/local/Cellar/tmux/2.5/bin/tmux'
 alias vim='/usr/local/Cellar/vim/8.0.0983/bin/vim'
 alias vimdiff='/usr/local/Cellar/vim/8.0.0983//bin/vimdiff'
+alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+alias g++='/usr/local/Cellar/gcc/7.2.0/bin/g++-7'
+alias c++='/usr/local/Cellar/gcc/7.2.0/bin/c++-7'
+alias gcc='/usr/local/Cellar/gcc/7.2.0/bin/gcc-7'
+alias cpp='/usr/local/Cellar/gcc/7.2.0/bin/cpp-7'
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
