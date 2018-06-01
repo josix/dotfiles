@@ -227,6 +227,8 @@ nn <c-h> gT
 nn <c-l> gt
 nn <leader>q :tabdo quit<cr>
 nn <silent><leader>t :set hls!<cr>
+"shortcuts for open regs
+noremap <silent> <leader>r :reg<cr>
 "============================================Mapping for Plugin=======================================================
 "Toggling for NERDTree
 noremap <silent> <c-e> :NERDTreeToggle<cr>

@@ -5,6 +5,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # The original version is saved in .bash_profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:/opt/local/bin/:${PATH}"
 export PATH
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/wilson/.oh-my-zsh
@@ -106,5 +107,18 @@ alias g++='/usr/local/Cellar/gcc/7.2.0/bin/g++-7'
 alias c++='/usr/local/Cellar/gcc/7.2.0/bin/c++-7'
 alias gcc='/usr/local/Cellar/gcc/7.2.0/bin/gcc-7'
 alias cpp='/usr/local/Cellar/gcc/7.2.0/bin/cpp-7'
+alias proNet-deepwalk='~/wilson/KKTeam/proNet-core/cli/deepwalk'
+alias proNet-walklets='~/wilson/KKTeam/proNet-core/cli/walklets'
+alias proNet-line='~/wilson/KKTeam/proNet-core/cli/line'
+alias proNet-hpe='~/wilson/KKTeam/proNet-core/cli/hpe'
+alias clip='ssh wilson@clip2.cs.nccu.edu.tw'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+python() {
+ local PYTHON="$(which python)"
+ if [[ "$PYTHON" == /usr/* ]]; then
+ echo "nope" >&2 | echo >/dev/null
+ else
+ "$PYTHON" "$@"
+ fi
+}
