@@ -46,7 +46,7 @@ rm -rf fonts
 mkdir -p ~/.vim/undodir
 ```
 
->> If using YCM, you need to go to the .vim/bundle/youcompleleme directory to run install.py with [lang-option](https://github.com/Valloric/YouCompleteMe#mac-os-x).
+> If using YCM, you need to go to the .vim/bundle/youcompleleme directory to run install.py with [lang-option](https://github.com/Valloric/YouCompleteMe#mac-os-x).
 
 # for tmux
 1. install tmux
