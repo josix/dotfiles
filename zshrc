@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH:$HOME/.local/bin
 
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
