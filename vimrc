@@ -21,6 +21,7 @@ Plugin 'scrooloose/nerdtree' "A tree explorer plugin for vim
 "Plugin 'AutoComplPop'
 Plugin 'moskytw/luthadel.vim' " color scheme
 Plugin 'altercation/vim-colors-solarized' " color scheme
+Plugin 'Zenburn' " color scheme
 Plugin 'vimwiki/vimwiki'
 Plugin 'majutsushi/tagbar'
 Plugin 'chrisbra/csv.vim'
@@ -98,12 +99,13 @@ let g:tern_map_keys=1
 let g:syntastic_javascript_checkers=['eslint']
 
 "===========================================setting status=====================================================
+" setting for soloariz theme
+" let g:solarized_termcolors=256
+" set background=dark
+
 " setting to open the file syntax, automaticlly dective file type like python, c...so as to show up the syntax
 syntax on
-let g:solarized_termcolors=256
-set background=dark
-colorscheme solarized
-
+colorscheme zenburn
 
 "setting the line number and relative line number(and color)
 set nu
