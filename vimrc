@@ -41,6 +41,9 @@ Plugin 'mattn/emmet-vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'mxw/vim-jsx'
 Plugin 'matchit.zip'
+Plugin 'vim-latex/vim-latex'
+Plugin 'xuhdev/vim-latex-live-preview'
+Plugin 'rhysd/vim-grammarous'
 
 
 " All of your Plugins must be added before the following line
@@ -70,10 +73,20 @@ set encoding=utf-8 " Necessary to show Unicode glyphs
 set t_Co=256 " Explicitly tell Vim that the terminal supports 256 colors
 let g:airline_powerline_fonts = 1
 let g:airline_theme='base16'
-let g:airline#extensions#tabline#fnamemod = 1
 let g:airline#extensions#bufferline#enabled = 1
+let g:airline#extensions#bufferline#overwrite_variables = 0
+let g:airline_section_b = '%{strftime("%a\ %b\ %e\ %H:%M")} %P%'
+" Setting for bufferline
+let g:bufferline_echo = 0
+let g:bufferline_active_buffer_left = '✨ '
+let g:bufferline_active_buffer_right = '✨'
+let g:bufferline_pathshorten = 1
+let g:bufferline_fname_mod = ':t'
+highlight bufferline_selected gui=bold cterm=bold term=bold
+highlight link bufferline_selected_inactive airline_c_inactive
+let g:bufferline_inactive_highlight = 'airline_c'
+let g:bufferline_active_highlight = 'bufferline_selected'
 
-let g:bufferline_fname_mod = ':~:.'
 "setting for tagbar
 set tags+=tags;/
 
@@ -98,6 +111,24 @@ let g:tern_map_keys=1
 "setting for ESlint
 let g:syntastic_javascript_checkers=['eslint']
 
+"setting for vim-latex
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'
+autocmd filetype tex imap ∫ Tex_MathBF
+autocmd filetype tex imap ç Tex_MathCal
+autocmd filetype tex imap ¬ Tex_LeftRight
+autocmd filetype tex imap ˆ Tex_InsertItemOnThisLine
+set conceallevel=1
+let g:tex_conceal='abdmg'
+
+"-----------------setting latex live preview-------------------------
+autocmd filetype tex setl updatetime=10000
+autocmd filetype tex :LLPStartPreview
+let g:livepreview_previewer = 'open -a Skim'
+nmap <F6> :LLPStartPreview<CR>
+imap <F6> <ESC>:LLPStartPreview<CR>
 "===========================================setting status=====================================================
 " setting for soloariz theme
 " let g:solarized_termcolors=256
@@ -109,7 +140,7 @@ colorscheme zenburn
 
 "setting the line number and relative line number(and color)
 set nu
-set relativenumber
+"set relativenumber
 "hi LineNr ctermfg=228
 "hi CursorLineNr ctermfg=221
 "setting the tab width"
@@ -152,6 +183,7 @@ set hidden
 hi PmenuSel     term=bold       cterm=bold      ctermfg=Blue  ctermbg=White
 "hi PmenuSbar    term=standout   cterm=bold      ctermfg=White  ctermbg=White
 hi PmenuThumb   term=bold       cterm=bold
+autocmd filetype tex setl colorcolumn=80
 "============================================Setting for Combination with Other Apps=======================================================
 "Show the correct color in tmux
 if exists('$TMUX')
@@ -231,6 +263,24 @@ nn <leader>q :tabdo quit<cr>
 nn <silent><leader>t :set hls!<cr>
 "shortcuts for open regs
 noremap <silent> <leader>r :reg<cr>
+
+" Synchronized scrolling, cursor in two windows
+function SyncWindow()
+  set cursorbind
+  set scrollbind
+  execute "wincmd w"
+  set cursorbind
+  set scrollbind
+endfunction
+nn <silent> <leader>sw :call SyncWindow()<cr>
+
+" setting that hitting 'K' to use the google search the word under cursor
+set keywordprg=google
+augroup AutoSaveFolds
+  autocmd!
+  autocmd BufWinLeave * mkview
+  autocmd BufWinEnter * silent loadview
+augroup END
 "============================================Mapping for Plugin=======================================================
 "Toggling for NERDTree
 noremap <silent> <c-e> :NERDTreeToggle<cr>
@@ -250,3 +300,6 @@ call tern#Enable()
 runtime after/ftplugin/javascript_tern.vim
 "set ft=html.javascript_tern
 "set ft=html.javascript
+func! LatexHelp()
+ exec "!open -a Preview ~/Desktop/vimlatexqrc.pdf"
+endfunc

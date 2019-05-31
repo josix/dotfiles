@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH:$HOME/.local/bin
+export PATH=$HOME/bin:/usr/local/bin:$PATH:$HOME/.local/bin:$HOME/Library/Python/3.7/bin
 
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
@@ -10,10 +10,31 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/wilson/.oh-my-zsh
 
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="af-magic"
+ZSH_THEME="powerlevel9k/powerlevel9k"
+
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context virtualenv dir vcs )
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status battery root_indicator background_jobs time)
+POWERLEVEL9K_VIRTUALENV_BACKGROUND='white'
+POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='red'
+POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='white'
+POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='red'
+POWERLEVEL9K_DIR_HOME_BACKGROUND='green'
+POWERLEVEL9K_DIR_HOME_FOREGROUND='black'
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND='green'
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND='black'
+POWERLEVEL9K_VCS_CLEAN_FOREGROUND='blue'
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND='108'
+POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='yellow'
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='black'
+POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='white'
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='black'
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -100,18 +121,20 @@ alias wm5='python3 ~/selenium/school_redundant/wm5.py'
 alias nccucs="ssh -p 3322 sg35@140.119.221.77"
 alias wsm='ssh -p 22114 soslab@140.119.19.90'
 alias tmux='/usr/local/Cellar/tmux/2.5/bin/tmux'
-alias vim='/usr/local/Cellar/vim/8.0.0983/bin/vim'
-alias vimdiff='/usr/local/Cellar/vim/8.0.0983//bin/vimdiff'
+alias vim='/usr/local/Cellar/vim/8.1.0202/bin/vim'
+alias vimdiff='/usr/local/Cellar/vim/8.1.0202//bin/vimdiff'
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
-alias g++='/usr/local/Cellar/gcc/7.2.0/bin/g++-7'
-alias c++='/usr/local/Cellar/gcc/7.2.0/bin/c++-7'
-alias gcc='/usr/local/Cellar/gcc/7.2.0/bin/gcc-7'
-alias cpp='/usr/local/Cellar/gcc/7.2.0/bin/cpp-7'
+#alias g++='/usr/local/Cellar/gcc/8.2.0/bin/g++-8'
+#alias c++='/usr/local/Cellar/gcc/8.2.0/bin/c++-8'
+#alias gcc='/usr/local/Cellar/gcc/8.2.0/bin/gcc-8'
+#alias cpp='/usr/local/Cellar/gcc/8.2.0/bin/cpp-8'
 alias proNet-deepwalk='~/wilson/KKTeam/proNet-core/cli/deepwalk'
 alias proNet-walklets='~/wilson/KKTeam/proNet-core/cli/walklets'
 alias proNet-line='~/wilson/KKTeam/proNet-core/cli/line'
 alias proNet-hpe='~/wilson/KKTeam/proNet-core/cli/hpe'
 alias clip='ssh wilson@clip2.cs.nccu.edu.tw'
+alias lat='ls -lhat'
+alias cfda='ssh guest@140.109.21.238'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 python() {
@@ -122,3 +145,10 @@ python() {
  "$PYTHON" "$@"
  fi
 }
+
+# Some installed tools setting
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
+. /Users/wilson/torch/install/bin/torch-activate
+export PATH="/usr/local/opt/llvm/bin:$PATH"
