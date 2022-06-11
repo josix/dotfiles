@@ -1,18 +1,18 @@
 [alias]
 	st = status
 [user]
-	email = wilson8507@gmail.com
-	name = WilsonWong
+	email = josixwang@gmail.com
+	name = Josix
 [core]
 	editor = vim
 	excludesfile = /Users/wilson/.gitignore_global
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [merge]
 	tool = vimdiff
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [commit]
 	template = /Users/wilson/.stCommitMsg
+[pager]
+     diff = diff-so-fancy | less --tabs=1,5 -RFX
+     show = diff-so-fancy | less --tabs=1,5 -RFX
+[push]
+	default = current
