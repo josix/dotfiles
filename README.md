@@ -24,7 +24,7 @@ sh install.sh
 cd ~
 mkdir -p .vim/bundle
 cd .vim/bundle
-git clone git clone https://github.com/VundleVim/Vundle.vim.git
+git clone https://github.com/VundleVim/Vundle.vim.git
 ```
 2. install plunins
 ```vimscript
