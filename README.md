@@ -14,7 +14,8 @@ chsh -s /bin/zsh
 ```
 3. install oh-my-zsh
 ```bash
-git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+sh install.sh
 ```
 
 # for vimrc
