@@ -6,7 +6,7 @@ call vundle#begin()
 " required!
 Plugin 'VundleVim/Vundle.vim'
 " My Bundles here:
-"
+
 " original repos on github
 "Plugin 'itchyny/lightline.vim' "statusline
 Plugin 'bling/vim-bufferline' "vim bufferline bar
@@ -19,30 +19,14 @@ Plugin 'ntpeters/vim-better-whitespace' "check the tailing space
 Plugin 'easymotion/vim-easymotion' "vim motion on speed
 Plugin 'scrooloose/nerdtree' "A tree explorer plugin for vim
 "Plugin 'AutoComplPop'
-Plugin 'moskytw/luthadel.vim' " color scheme
 Plugin 'altercation/vim-colors-solarized' " color scheme
 Plugin 'Zenburn' " color scheme
 Plugin 'vimwiki/vimwiki'
 Plugin 'majutsushi/tagbar'
 Plugin 'chrisbra/csv.vim'
-Plugin 'valloric/youcompleteme' "need to complie
-Plugin 'marijnh/tern_for_vim'
-Plugin 'othree/html5.vim'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'hail2u/vim-css3-syntax'
 Plugin 'w0rp/ale'
-Plugin 'johngrib/vim-game-code-break'
-Plugin 'johngrib/vim-game-snake'
-Plugin 'flowtype/vim-flow'
-Plugin 'isruslan/vim-es6'
-Plugin 'pangloss/vim-javascript'
 Plugin 'gorodinskiy/vim-coloresque'
-Plugin 'mattn/emmet-vim'
 Plugin 'kien/ctrlp.vim'
-Plugin 'mxw/vim-jsx'
-Plugin 'matchit.zip'
-Plugin 'vim-latex/vim-latex'
-Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'rhysd/vim-grammarous'
 
 
@@ -90,45 +74,6 @@ let g:bufferline_active_highlight = 'bufferline_selected'
 "setting for tagbar
 set tags+=tags;/
 
-"setting for youcompleteme
-let g:ycm_min_num_of_chars_for_completion = 3
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_complete_in_comments = 1
-let g:ycm_semantic_completion_toggle = '<c-f>'
-let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
-let g:ycm_semantic_triggers = {
-   \   'css': [ 're!^\s{1,4}', 're!:\s+' ],
-   \ }
-
-"setting for tern
-let g:tern_show_argument_hints='on_hold'
-" and
-let g:tern_map_keys=1
-
-"setting for ESlint
-let g:syntastic_javascript_checkers=['eslint']
-
-"setting for vim-latex
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'
-autocmd filetype tex imap ∫ Tex_MathBF
-autocmd filetype tex imap ç Tex_MathCal
-autocmd filetype tex imap ¬ Tex_LeftRight
-autocmd filetype tex imap ˆ Tex_InsertItemOnThisLine
-set conceallevel=1
-let g:tex_conceal='abdmg'
-
-"-----------------setting latex live preview-------------------------
-autocmd filetype tex setl updatetime=10000
-autocmd filetype tex :LLPStartPreview
-let g:livepreview_previewer = 'open -a Skim'
-nmap <F6> :LLPStartPreview<CR>
-imap <F6> <ESC>:LLPStartPreview<CR>
 "===========================================setting status=====================================================
 " setting for soloariz theme
 " let g:solarized_termcolors=256
@@ -294,12 +239,6 @@ autocmd filetype c nn <buffer> <localleader>c :!gcc %<cr>
 autocmd filetype cpp nn <buffer> <localleader>c :!g++ %<cr>
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-"use YCM in html
-set omnifunc=syntaxcomplete#Complete
-call tern#Enable()
-runtime after/ftplugin/javascript_tern.vim
-"set ft=html.javascript_tern
-"set ft=html.javascript
 func! LatexHelp()
  exec "!open -a Preview ~/Desktop/vimlatexqrc.pdf"
 endfunc
