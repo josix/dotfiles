@@ -1,20 +1,13 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH:$HOME/.local/bin:$HOME/Library/Python/3.7/bin
-
-# Setting PATH for Python 3.5
-# The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:/opt/local/bin/:${PATH}"
-export PATH
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/wilson/.oh-my-zsh
-
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
@@ -36,18 +29,29 @@ POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='black'
 POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='white'
 POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='black'
 
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-export UPDATE_ZSH_DAYS=30
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -59,6 +63,9 @@ export UPDATE_ZSH_DAYS=30
 ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -68,17 +75,21 @@ COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
 HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM='~/.oh-my-zsh/custom/'
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git extract z \ zsh-iterm-touchbar zsh-autosuggestions) # item after \ need to be installed
+plugins=(git extract z zsh-autosuggestions ssh-agent) # item after \ need to be installed
 
 source $ZSH/oh-my-zsh.sh
 
@@ -87,7 +98,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -99,56 +110,43 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="mate ~/.zshrc"
-alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ghost="ssh f103207425@ghost.cs.nccu.edu.tw"
-alias wilson='cd ~/wilson'
-alias grep='grep --color=auto'
-alias ghost='ssh f103207425@ghost.cs.nccu.edu.tw'
-alias arches='ssh -p 3322 sg35@140.119.55.171 '
-alias fghost='sftp f103207425@ghost.cs.nccu.edu.tw'
-#alias vim="vim -p"
-alias wm5='python3 ~/selenium/school_redundant/wm5.py'
-alias nccucs="ssh -p 3322 sg35@140.119.221.77"
-alias wsm='ssh -p 22114 soslab@140.119.19.90'
-alias tmux='/usr/local/Cellar/tmux/2.5/bin/tmux'
-alias vim='/usr/local/Cellar/vim/8.1.0202/bin/vim'
-alias vimdiff='/usr/local/Cellar/vim/8.1.0202//bin/vimdiff'
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+#
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
-#alias g++='/usr/local/Cellar/gcc/8.2.0/bin/g++-8'
-#alias c++='/usr/local/Cellar/gcc/8.2.0/bin/c++-8'
-#alias gcc='/usr/local/Cellar/gcc/8.2.0/bin/gcc-8'
-#alias cpp='/usr/local/Cellar/gcc/8.2.0/bin/cpp-8'
-alias proNet-deepwalk='~/wilson/KKTeam/proNet-core/cli/deepwalk'
-alias proNet-walklets='~/wilson/KKTeam/proNet-core/cli/walklets'
-alias proNet-line='~/wilson/KKTeam/proNet-core/cli/line'
-alias proNet-hpe='~/wilson/KKTeam/proNet-core/cli/hpe'
-alias clip='ssh wilson@clip2.cs.nccu.edu.tw'
 alias lat='ls -lhat'
-alias cfda='ssh guest@140.109.21.238'
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-python() {
- local PYTHON="$(which python)"
- if [[ "$PYTHON" == /usr/* ]]; then
- echo "nope" >&2 | echo >/dev/null
- else
- "$PYTHON" "$@"
- fi
-}
+# setting for zsh-completions
+FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
+autoload -Uz compinit
+compinit
 
-# Some installed tools setting
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
 
 
-. /Users/wilson/torch/install/bin/torch-activate
-export PATH="/usr/local/opt/llvm/bin:$PATH"
+# Created by `pipx` on 2022-06-11 20:50:27
+export PATH="$PATH:/Users/wilson/.local/bin"
+autoload -U bashcompinit
+bashcompinit
+eval "$(register-python-argcomplete pipx)"
+
+# setting for nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+# enter gi for showing the content of gitignore file
+function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
+
+# Making zsh command highlighting
+source /Users/wilson/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
