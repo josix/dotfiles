@@ -120,7 +120,13 @@ export LANG=en_US.UTF-8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
-alias lat='ls -lhat'
+alias less="bat"
+alias la="exa -lasnew"
+alias ll="exa -lsnew"
+alias ls="exa"
+alias ps="procs"
+alias du="dust"
+alias df="duf"
 
 # setting for zsh-completions
 FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
@@ -150,3 +156,5 @@ function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
 # Making zsh command highlighting
 source /Users/wilson/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# Disable homebrew auto update
+export HOMEBREW_NO_AUTO_UPDATE=1
