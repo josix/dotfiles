@@ -121,9 +121,10 @@ export LANG=en_US.UTF-8
 #
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 alias less="bat"
-alias la="exa -lasnew"
-alias ll="exa -lsnew"
-alias ls="exa"
+alias l='exa --icons --git -1'
+alias la='exa -lah --icons --git'
+alias ll='exa -lh --icons --git'
+alias ls='exa --color=auto --icons'
 alias ps="procs"
 alias du="dust"
 alias df="duf"

@@ -3,6 +3,7 @@
 [user]
 	email = josixwang@gmail.com
 	name = Josix
+  signingkey = EF4F614562B02881
 [core]
 	editor = vim
 	excludesfile = /Users/wilson/.gitignore_global
