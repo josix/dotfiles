@@ -89,7 +89,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git extract z zsh-autosuggestions ssh-agent) # item after \ need to be installed
+plugins=(git extract z zsh-autosuggestions ssh-agent docker docker-compose) # item after \ need to be installed
 
 source $ZSH/oh-my-zsh.sh
 
@@ -159,3 +159,6 @@ source /Users/wilson/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Disable homebrew auto update
 export HOMEBREW_NO_AUTO_UPDATE=1
+
+# Setting Docker image building platform for apple chip
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
