@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -155,10 +157,13 @@ export NVM_DIR="$HOME/.nvm"
 function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
 
 # Making zsh command highlighting
-source /Users/wilson/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /Users/wilson/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Disable homebrew auto update
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 # Setting Docker image building platform for apple chip
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
