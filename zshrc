@@ -130,6 +130,7 @@ alias ls='exa --color=auto --icons'
 alias ps="procs"
 alias du="dust"
 alias df="duf"
+alias gii='git init && git commit --allow-empty -m "startup"'
 
 # setting for zsh-completions
 FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
