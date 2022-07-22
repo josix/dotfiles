@@ -131,6 +131,7 @@ alias ps="procs"
 alias du="dust"
 alias df="duf"
 alias gii='git init && git commit --allow-empty -m "startup"'
+alias tmuxn='tmux new -s $(basename $PWD)'
 
 # setting for zsh-completions
 FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
@@ -168,3 +169,6 @@ export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+
+export PIPENV_VENV_IN_PROJECT=1
+
