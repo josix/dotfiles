@@ -172,3 +172,5 @@ export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 export PIPENV_VENV_IN_PROJECT=1
 
+# fzf settingj
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
