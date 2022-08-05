@@ -130,8 +130,11 @@ alias ls='exa --color=auto --icons'
 alias ps="procs"
 alias du="dust"
 alias df="duf"
-alias gii='git init && git commit --allow-empty -m "startup"'
 alias tmuxn='tmux new -s $(basename $PWD)'
+# alias for git
+alias gii='git init && git commit --allow-empty -m "startup"'
+alias gunch='git update-index --assume-unchanged'
+alias gnunch='git update-index --no-assume-unchanged'
 
 # setting for zsh-completions
 FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
@@ -167,10 +170,10 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # Setting Docker image building platform for apple chip
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
-
 export PIPENV_VENV_IN_PROJECT=1
 
 # fzf settingj
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
