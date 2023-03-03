@@ -130,6 +130,7 @@ alias ls='exa --color=auto --icons'
 alias ps="procs"
 alias du="dust"
 alias df="duf"
+alias diff="delta"
 alias tmuxn='tmux new -s $(basename $PWD)'
 # alias for git
 alias gii='git init && git commit --allow-empty -m "startup"'
@@ -168,7 +169,7 @@ source /Users/wilson/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 # Setting Docker image building platform for apple chip
-export DOCKER_DEFAULT_PLATFORM=linux/amd64
+# export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 export PIPENV_VENV_IN_PROJECT=1
 
