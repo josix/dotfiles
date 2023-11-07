@@ -34,3 +34,8 @@
 [alias]
   fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | grep -v fixup | fzf | cut -c -7 | xargs -I % -o git commit --fixup % $@"
   recent = "for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/"
+  lmsg = "log --pretty=format:%s"
+[pull]
+	rebase = true
+[remote "origin"]
+	prune = true
