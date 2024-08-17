@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # If you come from bash you might have to change your $PATH.
@@ -14,7 +21,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context virtualenv dir vcs )
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context virtualenv dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status battery root_indicator background_jobs time)
 POWERLEVEL9K_VIRTUALENV_BACKGROUND='white'
 POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='red'
@@ -91,7 +98,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git extract z vault zsh-autosuggestions ssh-agent docker docker-compose) # item after \ need to be installed
+plugins=(git extract z vault zsh-autosuggestions ssh-agent docker docker-compose kubectl kubectx ) # item after \ need to be installed
 
   source $ZSH/oh-my-zsh.sh
 
@@ -172,6 +179,37 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 export PIPENV_VENV_IN_PROJECT=1
+export PIP_REQUIRE_VIRTUALENV=true
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+export GOPATH=$HOME/go
+export PATH="$(go env GOPATH)/bin:$PATH"
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+# If the completion file does not exist, generate it and then source it
+# Otherwise, source it and regenerate in the background
+if [[ ! -f "$ZSH_CACHE_DIR/completions/_helm" ]]; then
+  helm completion zsh | tee "$ZSH_CACHE_DIR/completions/_helm" >/dev/null
+  source "$ZSH_CACHE_DIR/completions/_helm"
+else
+  source "$ZSH_CACHE_DIR/completions/_helm"
+  helm completion zsh | tee "$ZSH_CACHE_DIR/completions/_helm" >/dev/null &|
+fi
+
+if [[ ! -f "$ZSH_CACHE_DIR/completions/_k9s" ]]; then
+  k9s completion zsh | tee "$ZSH_CACHE_DIR/completions/_k9s" >/dev/null
+  source "$ZSH_CACHE_DIR/completions/_k9s"
+else
+  source "$ZSH_CACHE_DIR/completions/_k9s"
+  k9s completion zsh | tee "$ZSH_CACHE_DIR/completions/_k9s" >/dev/null &|
+fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # fzf settingj
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
