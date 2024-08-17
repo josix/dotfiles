@@ -91,9 +91,9 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git extract z zsh-autosuggestions ssh-agent docker docker-compose) # item after \ need to be installed
+plugins=(git extract z vault zsh-autosuggestions ssh-agent docker docker-compose) # item after \ need to be installed
 
-source $ZSH/oh-my-zsh.sh
+  source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
