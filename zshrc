@@ -21,7 +21,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context virtualenv dir vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context kubecontext  virtualenv dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status battery root_indicator background_jobs time)
 POWERLEVEL9K_VIRTUALENV_BACKGROUND='white'
 POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='red'
@@ -98,7 +98,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git extract z vault zsh-autosuggestions ssh-agent docker docker-compose kubectl kubectx ) # item after \ need to be installed
+plugins=(git extract zoxide z vault zsh-autosuggestions ssh-agent docker docker-compose kubectl kubectx ) # item after \ need to be installed
 
   source $ZSH/oh-my-zsh.sh
 
@@ -214,5 +214,55 @@ fi
 # fzf settingj
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+# airflow breeze
+source ~/wilson/airflow/airflow/dev/breeze/autocomplete/breeze-complete-zsh.sh
+
+# export DOCKER_HOST="unix:///Users/wilson.wang/.local/share/containers/podman/machine/qemu/podman.sock"
+
+
+
+export VAULT_ADDR=https://vault.appier.us/
+function pushtag()
+{
+  if [ "$1" != "" ]
+  then
+    git tag preview-proj"$1" -f
+    git push origin preview-proj"$1" -f
+  else
+    echo "should input tag name"
+  fi
+}
+# autossh -f -M 0 -o "ServerAliveInterval 10" -o "ServerAliveCountMax 3" -NL 27018:aixon-stg-percona-1.arepa.appier.info:27017 wilson-wang@bastion-arepa-ase1.arepa.appier.info -i ~/.ssh/aixon/aixon
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+alias gcp-trino='trino-cli  --server https://trino-abs-aixon-stg.gcp-asne1.edp.appier.info --catalog hive --user aixon-stg/pipeline --krb5-config-path ~/edp-trino/krb5.conf --krb5-principal aixon-stg/pipeline@APPIER.INFO --krb5-keytab-path ~/edp-trino/aws-pipeline.keytab --krb5-remote-service-name trino --krb5-service-principal-pattern trino@trino-abs-aixon-stg.gcp-asne1.edp.appier.info'
+alias gcp-prd-trino='trino-cli  --server https://trino-abs-aixon-pipeline.gcp-asne1.edp.arepa.appier.info --catalog hive --user aixon-prd/pipeline --krb5-config-path ~/edp-trino/krb5.conf --krb5-principal aixon-prd/pipeline@APPIER.INFO --krb5-keytab-path ~/edp-trino/pipeline-prd.keytab --krb5-remote-service-name trino --krb5-service-principal-pattern trino@trino-abs-aixon-pipeline.gcp-asne1.edp.arepa.appier.info'
+alias aws-trino='trino-cli  --server https://trino-abs-general.aws-apse1.edp.appier.info/ --catalog hive --user aixon-stg/pipeline --krb5-config-path ~/edp-trino/krb5.conf --krb5-principal aixon-stg/pipeline@APPIER.INFO --krb5-keytab-path ~/edp-trino/aws-pipeline.keytab --krb5-remote-service-name trino --krb5-service-principal-pattern trino@trino-abs-general.aws-apse1.edp.appier.info'
+
+alias aider='aider --env-file ~/aider/.env'
+# START: Added by Updated Airflow Breeze autocomplete setup
+source /Users/wilson.wang/wilson/airflow/airflow/dev/breeze/autocomplete/breeze-complete-zsh.sh
+# END: Added by Updated Airflow Breeze autocomplete setup
+
+# Created by `userpath` on 2024-08-13 18:25:18
+export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.8/python/bin"
+
+# Created by `userpath` on 2024-08-13 18:25:27
+export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.9/python/bin"
+
+# Created by `userpath` on 2024-08-13 18:25:38
+export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.10/python/bin"
+
+# Created by `userpath` on 2024-08-13 18:25:48
+export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.11/python/bin"
+
+# Created by `userpath` on 2024-08-13 18:26:02
+export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.12/python/bin"
+
+# Created by `userpath` on 2024-08-13 18:26:13
+export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/pypy2.7/pypy2.7-v7.3.15-macos_arm64/bin"
+
+# Created by `userpath` on 2024-08-13 18:26:25
+export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/pypy3.9/pypy3.9-v7.3.15-macos_arm64/bin"
+
+# Created by `userpath` on 2024-08-13 18:26:37
+export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/pypy3.10/pypy3.10-v7.3.15-macos_arm64/bin"
