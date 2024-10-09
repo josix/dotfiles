@@ -27,7 +27,9 @@ Plugin 'chrisbra/csv.vim'
 "Plugin 'w0rp/ale'
 Plugin 'gorodinskiy/vim-coloresque'
 Plugin 'kien/ctrlp.vim'
-"Plugin 'rhysd/vim-grammarous'
+Plugin 'preservim/nerdcommenter'
+Plugin 'prabirshrestha/vim-lsp'
+"Plugin 'rhysd/vim-grammarou'
 
 
 " All of your Plugins must be added before the following line
