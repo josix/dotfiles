@@ -130,6 +130,7 @@ export LANG=en_US.UTF-8
 #
 #alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 alias less="bat"
+alias cat='bat -p'
 alias l='exa --icons'
 alias la='exa -lah --created --modified --icons --git --time-style iso'
 alias ll='exa -lgh --created --modified --icons --git --time-style iso'
@@ -138,6 +139,7 @@ alias ps="procs"
 alias du="dust"
 alias df="duf"
 alias diff="delta"
+alias f='fd . | rg'
 alias tmuxn='tmux new -s $(basename $PWD)'
 # alias for git
 alias gii='git init && git commit --allow-empty -m "startup"'
