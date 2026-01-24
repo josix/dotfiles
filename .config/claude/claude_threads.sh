@@ -118,6 +118,275 @@ ccp() {
 }
 
 # ==============================================================================
+# A2) APPROVAL MODE WRAPPERS
+# ==============================================================================
+
+# cc_plan - Plan mode: Claude presents plan, you approve before execution
+# Usage: cc_plan "task description"
+cc_plan() {
+    _cc_check_claude || return 1
+    local model_args
+    model_args=($(_cc_model_args))
+    claude "${model_args[@]}" --permission-mode plan "$@"
+}
+
+# cc_step - Step-by-step approval: explicit permission prompt for each action
+# This is the default Claude behavior, but named explicitly for clarity
+# Usage: cc_step "task description"
+cc_step() {
+    _cc_check_claude || return 1
+    local model_args
+    model_args=($(_cc_model_args))
+    # Default mode already prompts for each action
+    claude "${model_args[@]}" "$@"
+}
+
+# cc_approve - Interactive approval with action preview
+# Runs with explicit tool restrictions and prompts for each step
+# Usage: cc_approve "task description" [allowed_tools...]
+cc_approve() {
+    _cc_check_claude || return 1
+
+    if [ $# -eq 0 ]; then
+        printf '%s\n' "Usage: cc_approve \"<task>\" [tool1,tool2,...]" >&2
+        return 1
+    fi
+
+    local task="$1"
+    shift
+
+    local model_args
+    model_args=($(_cc_model_args))
+
+    # If tools specified, restrict to those
+    if [ $# -gt 0 ]; then
+        local tools="$1"
+        shift
+        claude "${model_args[@]}" --allowedTools "$tools" "$@" "$task"
+    else
+        # Default: allow safe read-only tools, prompt for writes
+        claude "${model_args[@]}" "$@" "$task"
+    fi
+}
+
+# cc_readonly - Read-only mode: only allow non-modifying tools
+# Usage: cc_readonly "question or analysis task"
+cc_readonly() {
+    _cc_check_claude || return 1
+
+    if [ $# -eq 0 ]; then
+        printf '%s\n' "Usage: cc_readonly \"<task>\"" >&2
+        return 1
+    fi
+
+    local task="$1"
+    shift
+
+    local model_args
+    model_args=($(_cc_model_args))
+
+    # Only allow read operations
+    claude "${model_args[@]}" \
+        --allowedTools "Read,Glob,Grep,WebSearch,WebFetch,Task" \
+        "$@" "$task"
+}
+
+# cc_yolo - Skip all permission prompts (use with caution!)
+# Usage: cc_yolo "trusted task"
+cc_yolo() {
+    _cc_check_claude || return 1
+
+    if [ $# -eq 0 ]; then
+        printf '%s\n' "Usage: cc_yolo \"<task>\"" >&2
+        printf '%s\n' "WARNING: This skips all permission prompts!" >&2
+        return 1
+    fi
+
+    local task="$1"
+    shift
+
+    local model_args
+    model_args=($(_cc_model_args))
+
+    printf '%s\n' "WARNING: Running with --dangerously-skip-permissions" >&2
+    claude "${model_args[@]}" --dangerously-skip-permissions "$@" "$task"
+}
+
+# ccp_plan - Print mode with plan: show what would be done, then execute
+# Usage: ccp_plan "task"
+ccp_plan() {
+    _cc_check_claude || return 1
+
+    if [ $# -eq 0 ]; then
+        printf '%s\n' "Usage: ccp_plan \"<task>\"" >&2
+        return 1
+    fi
+
+    local task="$1"
+    shift
+
+    local model_args print_args
+    model_args=($(_cc_model_args))
+    print_args=($(_cc_print_args))
+
+    # First, get the plan
+    _cc_log "Generating execution plan..."
+    _cc_hr
+
+    local plan_prompt="Create a detailed step-by-step plan for this task. DO NOT execute anything yet, just outline what you would do:
+
+$task
+
+Format as numbered steps with expected outcomes."
+
+    claude "${model_args[@]}" "${print_args[@]}" --print "$plan_prompt" "$@"
+
+    local plan_exit=$?
+
+    _cc_hr
+    printf '%s' "Review the plan above. Execute it? [y/N]: "
+    read -r response
+
+    case "$response" in
+        [yY]|[yY][eE][sS])
+            _cc_log "Executing plan..."
+            _cc_hr
+            claude "${model_args[@]}" "${print_args[@]}" \
+                --continue --print "Now execute the plan step by step. After each step, report what was done." \
+                "$@"
+            ;;
+        *)
+            _cc_log "Execution cancelled by user"
+            return 130
+            ;;
+    esac
+}
+
+# cc_confirm - Run with confirmation prompts between major actions
+# Uses a phased approach: plan -> confirm -> execute -> confirm -> next
+# Usage: cc_confirm "complex task"
+cc_confirm() {
+    _cc_check_claude || return 1
+    _cc_ensure_threads_dir || return 1
+
+    if [ $# -eq 0 ]; then
+        printf '%s\n' "Usage: cc_confirm \"<task>\"" >&2
+        return 1
+    fi
+
+    local task="$1"
+    shift
+
+    local run_dir="${CC_THREADS_DIR}/$(_cc_timestamp)_confirm"
+    mkdir -p "$run_dir" || return 1
+
+    local model_args print_args
+    model_args=($(_cc_model_args))
+    print_args=($(_cc_print_args))
+
+    _cc_log "CONFIRM MODE: Step-by-step execution with approval"
+    _cc_log "Task: $task"
+    _cc_hr
+
+    # Phase 1: Get the plan
+    _cc_log "Phase 1: Generating plan..."
+    local plan_prompt="Analyze this task and create a detailed execution plan. List each action you would take, in order. DO NOT execute anything yet.
+
+Task: $task
+
+Format:
+1. [Action]: Description and expected outcome
+2. [Action]: Description and expected outcome
+..."
+
+    claude "${model_args[@]}" "${print_args[@]}" \
+        --print "$plan_prompt" \
+        "$@" \
+        2>&1 | tee "${run_dir}/plan.txt"
+
+    _cc_hr
+    printf '%s' "Approve this plan? [y/N/e(dit)]: "
+    read -r response
+
+    case "$response" in
+        [eE]|[eE][dD][iI][tT])
+            printf '%s\n' "Enter modified instructions (Ctrl+D when done):"
+            local modified_task
+            modified_task=$(cat)
+            task="$modified_task"
+            ;;
+        [yY]|[yY][eE][sS])
+            ;;
+        *)
+            _cc_log "Cancelled by user"
+            return 130
+            ;;
+    esac
+
+    # Phase 2: Execute with step confirmations
+    _cc_log "Phase 2: Executing with step confirmations..."
+
+    local step_prompt="Execute the plan for this task ONE STEP AT A TIME.
+
+After completing each step:
+1. Report exactly what you did
+2. Show any output or changes
+3. STOP and wait for approval before the next step
+
+Task: $task
+
+Begin with step 1 only."
+
+    local step=1
+    while true; do
+        _cc_hr
+        _cc_log "Executing step $step..."
+
+        if [ $step -eq 1 ]; then
+            claude "${model_args[@]}" "${print_args[@]}" \
+                --print "$step_prompt" \
+                "$@" \
+                2>&1 | tee "${run_dir}/step_${step}.txt"
+        else
+            claude "${model_args[@]}" "${print_args[@]}" \
+                --continue --print "Continue with the next step. Execute ONE step, report what you did, then STOP." \
+                "$@" \
+                2>&1 | tee "${run_dir}/step_${step}.txt"
+        fi
+
+        _cc_hr
+        printf '%s' "Step $step complete. Continue? [y/N/r(evert)/d(one)]: "
+        read -r response
+
+        case "$response" in
+            [yY]|[yY][eE][sS])
+                step=$((step + 1))
+                ;;
+            [rR]|[rR][eE][vV][eE][rR][tT])
+                _cc_log "Reverting step $step..."
+                claude "${model_args[@]}" "${print_args[@]}" \
+                    --continue --print "Undo/revert the last action you took. Restore to previous state." \
+                    "$@" \
+                    2>&1 | tee "${run_dir}/step_${step}_revert.txt"
+                ;;
+            [dD]|[dD][oO][nN][eE])
+                _cc_log "Marked as complete by user"
+                break
+                ;;
+            *)
+                _cc_log "Stopping execution"
+                break
+                ;;
+        esac
+    done
+
+    _cc_hr
+    _cc_log "Confirm mode complete. $step steps executed."
+    _cc_log "Logs saved to: $run_dir"
+    printf '%s\n' "$run_dir"
+}
+
+# ==============================================================================
 # B) SESSION HELPERS
 # ==============================================================================
 
@@ -744,6 +1013,8 @@ cc_selftest() {
     # List available functions
     printf '\n%s\n' "Available functions:"
     printf '%s\n' "  Base:     cc, ccp"
+    printf '%s\n' "  Approval: cc_plan, cc_step, cc_approve, cc_readonly, cc_yolo"
+    printf '%s\n' "            ccp_plan, cc_confirm"
     printf '%s\n' "  Session:  cc_continue, cc_resume, cc_fork, ccp_continue"
     printf '%s\n' "  Parallel: cc_pthread"
     printf '%s\n' "  Chained:  cc_cthread"
@@ -771,7 +1042,7 @@ cc_selftest() {
 if [ -n "$BASH_VERSION" ]; then
     _cc_completions() {
         local cur="${COMP_WORDS[COMP_CWORD]}"
-        local commands="cc ccp cc_continue cc_resume cc_fork ccp_continue cc_pthread cc_cthread cc_fthread cc_bthread cc_lthread_remote cc_teleport cc_lthread_loop cc_zthread cc_selftest"
+        local commands="cc ccp cc_plan cc_step cc_approve cc_readonly cc_yolo ccp_plan cc_confirm cc_continue cc_resume cc_fork ccp_continue cc_pthread cc_cthread cc_fthread cc_bthread cc_lthread_remote cc_teleport cc_lthread_loop cc_zthread cc_selftest"
         COMPREPLY=($(compgen -W "$commands" -- "$cur"))
     }
     complete -F _cc_completions cc
@@ -782,7 +1053,8 @@ fi
 # ==============================================================================
 
 # Export all public functions for subshells
-export -f cc ccp cc_continue cc_resume cc_fork ccp_continue \
+export -f cc ccp cc_plan cc_step cc_approve cc_readonly cc_yolo ccp_plan cc_confirm \
+    cc_continue cc_resume cc_fork ccp_continue \
     cc_pthread cc_cthread cc_fthread cc_bthread \
     cc_lthread_remote cc_teleport cc_lthread_loop cc_zthread \
     cc_selftest 2>/dev/null || true

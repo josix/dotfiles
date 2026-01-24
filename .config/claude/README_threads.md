@@ -106,6 +106,99 @@ ccp "Generate a UUID" > uuid.txt
 result=$(ccp "What is 2+2?")
 ```
 
+### Approval Mode Wrappers
+
+Control how Claude asks for permission before taking actions.
+
+#### `cc_plan` - Plan Mode (Approve Before Execution)
+
+Claude presents a complete plan first, then executes only after approval.
+
+```bash
+# Claude will show the plan and ask for approval
+cc_plan "Refactor the authentication module"
+
+# Good for: complex changes where you want to review the approach first
+```
+
+#### `cc_step` - Step-by-Step Mode (Default Behavior)
+
+Explicit name for Claude's default permission prompting.
+
+```bash
+# Same as cc, but makes intent clear
+cc_step "Fix the bug in payment processing"
+```
+
+#### `cc_approve` - Restricted Tool Approval
+
+Run with specific allowed tools only.
+
+```bash
+# Only allow read operations and grep
+cc_approve "Analyze this codebase" "Read,Grep,Glob"
+
+# Allow edits but not bash
+cc_approve "Update the config files" "Read,Edit,Write"
+```
+
+#### `cc_readonly` - Read-Only Mode
+
+Only allows non-modifying operations (safe for exploration).
+
+```bash
+# Safe exploration - cannot modify anything
+cc_readonly "Explain how the auth system works"
+
+# Good for: code review, learning, analysis
+```
+
+#### `cc_yolo` - Skip All Permissions (Use with Caution!)
+
+Bypasses all permission prompts. Only use for trusted, well-understood tasks.
+
+```bash
+# WARNING: No permission prompts!
+cc_yolo "Run the standard migration script"
+```
+
+#### `ccp_plan` - Print Mode with Plan Preview
+
+Shows the plan first, asks for confirmation, then executes.
+
+```bash
+# Review plan before execution
+ccp_plan "Add input validation to all API endpoints"
+
+# Output: Shows plan, asks y/N, then executes if approved
+```
+
+#### `cc_confirm` - Interactive Step-by-Step Confirmation
+
+Most controlled mode: approves each step individually with revert option.
+
+```bash
+# Execute with confirmation after each step
+cc_confirm "Migrate the database schema"
+
+# At each step you can:
+# - [y] Continue to next step
+# - [r] Revert the last action
+# - [d] Mark as done and stop
+# - [n] Stop execution
+```
+
+**Approval Mode Comparison:**
+
+| Function | Permission Level | Use Case |
+|----------|-----------------|----------|
+| `cc_yolo` | None (skip all) | Trusted automation |
+| `cc` / `cc_step` | Per-action | Normal interactive use |
+| `cc_plan` | Plan approval | Complex changes |
+| `cc_approve` | Tool-restricted | Limited scope tasks |
+| `cc_readonly` | Read-only | Safe exploration |
+| `cc_confirm` | Per-step + revert | Critical changes |
+
 ### Session Helpers
 
 #### `cc_continue` - Continue Most Recent Session
