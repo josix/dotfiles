@@ -72,6 +72,10 @@ export CC_MAX_TURNS=50
 # Default validation command for hooks
 export CC_VALIDATE_CMD="npm test"
 
+# Default allowed tools (empty = all tools allowed)
+# Useful to set baseline restrictions for cc_default
+export CC_DEFAULT_TOOLS="Read,Glob,Grep,Edit,Write"
+
 # Enable verbose loading message
 export CC_VERBOSE=1
 ```
@@ -188,6 +192,37 @@ cc_confirm "Migrate the database schema"
 # - [n] Stop execution
 ```
 
+#### `cc_tools` - Claude Suggests Tools, You Approve
+
+Claude analyzes the task and recommends which tools to use. You can accept, modify, or reject.
+
+```bash
+# Claude will suggest tools for this task
+cc_tools "Refactor the auth module and add tests"
+
+# Output:
+# Suggested tools: Read,Grep,Edit,Bash
+# Options:
+#   [Enter]  - Accept suggested tools
+#   [tools]  - Enter your own comma-separated list
+#   [all]    - Allow all tools
+#   [q]      - Cancel
+```
+
+#### `cc_default` - Run with Default Tool Restrictions
+
+Uses `CC_DEFAULT_TOOLS` environment variable for baseline restrictions.
+
+```bash
+# Set your defaults in .bashrc/.zshrc
+export CC_DEFAULT_TOOLS="Read,Glob,Grep,Edit,Write"
+
+# Then use cc_default to run with those restrictions
+cc_default "Update the configuration files"
+
+# If CC_DEFAULT_TOOLS is not set, all tools are allowed
+```
+
 **Approval Mode Comparison:**
 
 | Function | Permission Level | Use Case |
@@ -197,6 +232,8 @@ cc_confirm "Migrate the database schema"
 | `cc_plan` | Plan approval | Complex changes |
 | `cc_approve` | Tool-restricted | Limited scope tasks |
 | `cc_readonly` | Read-only | Safe exploration |
+| `cc_tools` | Claude suggests, you approve | Smart tool selection |
+| `cc_default` | Uses CC_DEFAULT_TOOLS | Consistent baseline |
 | `cc_confirm` | Per-step + revert | Critical changes |
 
 ### Session Helpers

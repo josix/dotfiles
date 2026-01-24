@@ -22,6 +22,7 @@
 : "${CC_THREADS_DIR:=${XDG_STATE_HOME:-$HOME/.local/state}/cc-threads}"
 : "${CC_MAX_TURNS:=0}"
 : "${CC_VALIDATE_CMD:=}"
+: "${CC_DEFAULT_TOOLS:=}"  # Comma-separated list of default allowed tools (empty = all)
 
 # ==============================================================================
 # INTERNAL UTILITIES
@@ -260,6 +261,120 @@ Format as numbered steps with expected outcomes."
             return 130
             ;;
     esac
+}
+
+# cc_tools - Let Claude suggest tools, you approve, then execute
+# Usage: cc_tools "task description"
+cc_tools() {
+    _cc_check_claude || return 1
+
+    if [ $# -eq 0 ]; then
+        printf '%s\n' "Usage: cc_tools \"<task>\"" >&2
+        return 1
+    fi
+
+    local task="$1"
+    shift
+
+    local model_args print_args
+    model_args=($(_cc_model_args))
+    print_args=($(_cc_print_args))
+
+    # Available tools list for reference
+    local available_tools="Read,Write,Edit,Bash,Glob,Grep,WebSearch,WebFetch,Task,NotebookEdit"
+
+    _cc_log "Analyzing task to determine required tools..."
+    _cc_hr
+
+    # Ask Claude to suggest tools
+    local suggest_prompt="Analyze this task and determine which tools you would need.
+
+Task: $task
+
+Available tools:
+- Read: Read file contents
+- Write: Create new files
+- Edit: Modify existing files
+- Bash: Run shell commands
+- Glob: Find files by pattern
+- Grep: Search file contents
+- WebSearch: Search the web
+- WebFetch: Fetch web pages
+- Task: Delegate to subagents
+- NotebookEdit: Edit Jupyter notebooks
+
+Reply with ONLY a comma-separated list of tools needed (no explanation), e.g.:
+Read,Grep,Edit"
+
+    local suggested
+    suggested=$(claude "${model_args[@]}" "${print_args[@]}" --print "$suggest_prompt" --dangerously-skip-permissions 2>/dev/null | tr -d '[:space:]')
+
+    if [ -z "$suggested" ]; then
+        suggested="Read,Glob,Grep"  # Safe fallback
+    fi
+
+    _cc_hr
+    printf '%s\n' "Suggested tools: $suggested"
+    printf '\n'
+    printf '%s\n' "Options:"
+    printf '%s\n' "  [Enter]  - Accept suggested tools"
+    printf '%s\n' "  [tools]  - Enter your own comma-separated list"
+    printf '%s\n' "  [all]    - Allow all tools"
+    printf '%s\n' "  [q]      - Cancel"
+    printf '\n'
+    printf '%s' "Your choice: "
+    read -r response
+
+    local final_tools
+    case "$response" in
+        ""|" ")
+            final_tools="$suggested"
+            ;;
+        [qQ])
+            _cc_log "Cancelled"
+            return 130
+            ;;
+        [aA][lL][lL])
+            final_tools=""  # Empty means all tools
+            ;;
+        *)
+            final_tools="$response"
+            ;;
+    esac
+
+    _cc_hr
+    if [ -n "$final_tools" ]; then
+        _cc_log "Running with tools: $final_tools"
+        claude "${model_args[@]}" --allowedTools "$final_tools" "$@" "$task"
+    else
+        _cc_log "Running with all tools"
+        claude "${model_args[@]}" "$@" "$task"
+    fi
+}
+
+# cc_default - Run with CC_DEFAULT_TOOLS (or all if not set)
+# Usage: cc_default "task description"
+cc_default() {
+    _cc_check_claude || return 1
+
+    if [ $# -eq 0 ]; then
+        printf '%s\n' "Usage: cc_default \"<task>\"" >&2
+        printf '%s\n' "Set CC_DEFAULT_TOOLS env var to restrict tools" >&2
+        return 1
+    fi
+
+    local task="$1"
+    shift
+
+    local model_args
+    model_args=($(_cc_model_args))
+
+    if [ -n "$CC_DEFAULT_TOOLS" ]; then
+        _cc_log "Using default tools: $CC_DEFAULT_TOOLS"
+        claude "${model_args[@]}" --allowedTools "$CC_DEFAULT_TOOLS" "$@" "$task"
+    else
+        claude "${model_args[@]}" "$@" "$task"
+    fi
 }
 
 # cc_confirm - Run with confirmation prompts between major actions
@@ -976,7 +1091,8 @@ cc_selftest() {
     printf '%s\n' "  CC_OUTFMT:      $CC_OUTFMT"
     printf '%s\n' "  CC_MAX_TURNS:   $CC_MAX_TURNS"
     printf '%s\n' "  CC_THREADS_DIR: $CC_THREADS_DIR"
-    printf '%s\n' "  CC_VALIDATE_CMD: ${CC_VALIDATE_CMD:-(not set)}"
+    printf '%s\n' "  CC_VALIDATE_CMD:  ${CC_VALIDATE_CMD:-(not set)}"
+    printf '%s\n' "  CC_DEFAULT_TOOLS: ${CC_DEFAULT_TOOLS:-(not set, all allowed)}"
 
     # Check directories
     printf '\n%s\n' "Directories:"
@@ -1014,7 +1130,7 @@ cc_selftest() {
     printf '\n%s\n' "Available functions:"
     printf '%s\n' "  Base:     cc, ccp"
     printf '%s\n' "  Approval: cc_plan, cc_step, cc_approve, cc_readonly, cc_yolo"
-    printf '%s\n' "            ccp_plan, cc_confirm"
+    printf '%s\n' "            ccp_plan, cc_confirm, cc_tools, cc_default"
     printf '%s\n' "  Session:  cc_continue, cc_resume, cc_fork, ccp_continue"
     printf '%s\n' "  Parallel: cc_pthread"
     printf '%s\n' "  Chained:  cc_cthread"
@@ -1042,7 +1158,7 @@ cc_selftest() {
 if [ -n "$BASH_VERSION" ]; then
     _cc_completions() {
         local cur="${COMP_WORDS[COMP_CWORD]}"
-        local commands="cc ccp cc_plan cc_step cc_approve cc_readonly cc_yolo ccp_plan cc_confirm cc_continue cc_resume cc_fork ccp_continue cc_pthread cc_cthread cc_fthread cc_bthread cc_lthread_remote cc_teleport cc_lthread_loop cc_zthread cc_selftest"
+        local commands="cc ccp cc_plan cc_step cc_approve cc_readonly cc_yolo ccp_plan cc_confirm cc_tools cc_default cc_continue cc_resume cc_fork ccp_continue cc_pthread cc_cthread cc_fthread cc_bthread cc_lthread_remote cc_teleport cc_lthread_loop cc_zthread cc_selftest"
         COMPREPLY=($(compgen -W "$commands" -- "$cur"))
     }
     complete -F _cc_completions cc
@@ -1053,7 +1169,7 @@ fi
 # ==============================================================================
 
 # Export all public functions for subshells
-export -f cc ccp cc_plan cc_step cc_approve cc_readonly cc_yolo ccp_plan cc_confirm \
+export -f cc ccp cc_plan cc_step cc_approve cc_readonly cc_yolo ccp_plan cc_confirm cc_tools cc_default \
     cc_continue cc_resume cc_fork ccp_continue \
     cc_pthread cc_cthread cc_fthread cc_bthread \
     cc_lthread_remote cc_teleport cc_lthread_loop cc_zthread \
