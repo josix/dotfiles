@@ -1,0 +1,10 @@
+.DS_Store
+.zshrc.local
+.gitconfig.local
+*.swp
+*.swo
+.envrc.local
+
+# Session-local tooling
+.claude/
+graphify-out/

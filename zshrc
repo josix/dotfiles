@@ -5,8 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -98,7 +96,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git extract zoxide z vault zsh-autosuggestions ssh-agent docker docker-compose kubectl kubectx ) # item after \ need to be installed
+plugins=(git extract zoxide zsh-autosuggestions ssh-agent docker docker-compose kubectl kubectx ) # item after \ need to be installed
 
   source $ZSH/oh-my-zsh.sh
 
@@ -130,11 +128,10 @@ export LANG=en_US.UTF-8
 #
 #alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 alias less="bat"
-alias cat='bat -p'
-alias l='exa --icons'
-alias la='exa -lah --created --modified --icons --git --time-style iso'
-alias ll='exa -lgh --created --modified --icons --git --time-style iso'
-alias ls='exa --color=auto --icons'
+alias l='eza --icons'
+alias la='eza -lah --created --modified --icons --git --time-style iso'
+alias ll='eza -lgh --created --modified --icons --git --time-style iso'
+alias ls='eza --color=auto --icons'
 alias ps="procs"
 alias du="dust"
 alias df="duf"
@@ -157,22 +154,13 @@ fi
 
 
 # Created by `pipx` on 2022-06-11 20:50:27
-export PATH="$PATH:/Users/wilson/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 autoload -U bashcompinit
 bashcompinit
 eval "$(register-python-argcomplete pipx)"
 
-# setting for nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
 # enter gi for showing the content of gitignore file
 function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
-
-# Making zsh command highlighting
-source /Users/wilson/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Disable homebrew auto update
 export HOMEBREW_NO_AUTO_UPDATE=1
@@ -183,15 +171,15 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 export PIPENV_VENV_IN_PROJECT=1
 export PIP_REQUIRE_VIRTUALENV=true
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 export GOPATH=$HOME/go
 export PATH="$(go env GOPATH)/bin:$PATH"
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
+[[ $commands[databricks] ]] && source <(databricks completion zsh)
+
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 # If the completion file does not exist, generate it and then source it
 # Otherwise, source it and regenerate in the background
 if [[ ! -f "$ZSH_CACHE_DIR/completions/_helm" ]]; then
@@ -216,14 +204,11 @@ fi
 # fzf settingj
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# airflow breeze
-source ~/wilson/airflow/airflow/dev/breeze/autocomplete/breeze-complete-zsh.sh
-
-# export DOCKER_HOST="unix:///Users/wilson.wang/.local/share/containers/podman/machine/qemu/podman.sock"
+# export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/qemu/podman.sock"
 
 
 
-export VAULT_ADDR=https://vault.appier.us/
+
 function pushtag()
 {
   if [ "$1" != "" ]
@@ -234,37 +219,16 @@ function pushtag()
     echo "should input tag name"
   fi
 }
-# autossh -f -M 0 -o "ServerAliveInterval 10" -o "ServerAliveCountMax 3" -NL 27018:aixon-stg-percona-1.arepa.appier.info:27017 wilson-wang@bastion-arepa-ase1.arepa.appier.info -i ~/.ssh/aixon/aixon
-export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
-alias gcp-trino='trino-cli  --server https://trino-abs-aixon-stg.gcp-asne1.edp.appier.info --catalog hive --user aixon-stg/pipeline --krb5-config-path ~/edp-trino/krb5.conf --krb5-principal aixon-stg/pipeline@APPIER.INFO --krb5-keytab-path ~/edp-trino/aws-pipeline.keytab --krb5-remote-service-name trino --krb5-service-principal-pattern trino@trino-abs-aixon-stg.gcp-asne1.edp.appier.info'
-alias gcp-prd-trino='trino-cli  --server https://trino-abs-aixon-pipeline.gcp-asne1.edp.arepa.appier.info --catalog hive --user aixon-prd/pipeline --krb5-config-path ~/edp-trino/krb5.conf --krb5-principal aixon-prd/pipeline@APPIER.INFO --krb5-keytab-path ~/edp-trino/pipeline-prd.keytab --krb5-remote-service-name trino --krb5-service-principal-pattern trino@trino-abs-aixon-pipeline.gcp-asne1.edp.arepa.appier.info'
-alias aws-trino='trino-cli  --server https://trino-abs-general.aws-apse1.edp.appier.info/ --catalog hive --user aixon-stg/pipeline --krb5-config-path ~/edp-trino/krb5.conf --krb5-principal aixon-stg/pipeline@APPIER.INFO --krb5-keytab-path ~/edp-trino/aws-pipeline.keytab --krb5-remote-service-name trino --krb5-service-principal-pattern trino@trino-abs-general.aws-apse1.edp.appier.info'
+export PATH="$(brew --prefix)/opt/openjdk@17/bin:$PATH"
 
 alias aider='aider --env-file ~/aider/.env'
-# START: Added by Updated Airflow Breeze autocomplete setup
-source /Users/wilson.wang/wilson/airflow/airflow/dev/breeze/autocomplete/breeze-complete-zsh.sh
-# END: Added by Updated Airflow Breeze autocomplete setup
 
-# Created by `userpath` on 2024-08-13 18:25:18
-export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.8/python/bin"
+export PATH="$(brew --prefix)/opt/postgresql@13/bin:$PATH"
+export PATH="$(brew --prefix)/opt/libpq/bin:$PATH"
+export PATH="$HOME/.duckdb/cli/latest":$PATH
+export PATH="$HOME/bin":$PATH
+export PATH="$HOME/.bun/bin:$PATH"
 
-# Created by `userpath` on 2024-08-13 18:25:27
-export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.9/python/bin"
+# Load machine-specific / work-specific overrides if present
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
-# Created by `userpath` on 2024-08-13 18:25:38
-export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.10/python/bin"
-
-# Created by `userpath` on 2024-08-13 18:25:48
-export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.11/python/bin"
-
-# Created by `userpath` on 2024-08-13 18:26:02
-export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/3.12/python/bin"
-
-# Created by `userpath` on 2024-08-13 18:26:13
-export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/pypy2.7/pypy2.7-v7.3.15-macos_arm64/bin"
-
-# Created by `userpath` on 2024-08-13 18:26:25
-export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/pypy3.9/pypy3.9-v7.3.15-macos_arm64/bin"
-
-# Created by `userpath` on 2024-08-13 18:26:37
-export PATH="$PATH:/Users/wilson.wang/Library/Application Support/hatch/pythons/pypy3.10/pypy3.10-v7.3.15-macos_arm64/bin"
