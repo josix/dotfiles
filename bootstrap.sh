@@ -17,7 +17,7 @@ fi
 # 2. Brewfile
 if [[ -f "$DOTFILES_DIR/Brewfile" ]]; then
     echo "→ Running brew bundle"
-    brew bundle install --file="$DOTFILES_DIR/Brewfile"
+    brew bundle install --file="$DOTFILES_DIR/Brewfile" -v
 fi
 
 # 3. oh-my-zsh
