@@ -1,0 +1,19 @@
+# Copy to ~/.zshrc.local and fill in machine-specific or work-specific config.
+# This file is sourced by zshrc at the end.
+
+# --- Plugins installed outside oh-my-zsh ---
+# source /path/to/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# --- Work-specific environment ---
+# export VAULT_ADDR="https://vault.example.com/"
+
+# --- Work-specific tool integrations ---
+# source ~/path/to/airflow/dev/breeze/autocomplete/breeze-complete-zsh.sh
+
+# --- Work-specific aliases ---
+# alias my-trino='trino-cli --server https://... --catalog hive --user ...'
+
+# --- Machine-specific PATH additions (e.g., hatch pythons) ---
+# for p in "$HOME/Library/Application Support/hatch/pythons/"*/python/bin; do
+#   [[ -d "$p" ]] && export PATH="$PATH:$p"
+# done
