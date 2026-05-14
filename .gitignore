@@ -8,3 +8,4 @@
 # Session-local tooling
 .claude/
 graphify-out/
+.aider*
