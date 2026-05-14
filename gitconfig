@@ -1,15 +1,15 @@
 [alias]
 	st = status
-[user]
-	email = josixwang@gmail.com
-	name = Josix
-  signingkey = EF4F614562B02881
+  fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | grep -v fixup | fzf | cut -c -7 | xargs -I % -o git commit --fixup % $@"
+  recent = "for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/"
+  lmsg = "log --pretty=format:%s"
 [core]
 	editor = vim
-	excludesfile = /Users/wilson/.gitignore_global
+	excludesfile = ~/.gitignore_global
   pager = delta
 [merge]
 	tool = vimdiff
+    conflictstyle = diff3
 [commit]
 	gpgSign = true
 [push]
@@ -24,18 +24,11 @@
     navigate = true    # use n and N to move between diff sections
     light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
     side-by-side = true
-
-[merge]
-    conflictstyle = diff3
-
 [diff]
     colorMoved = default
-
-[alias]
-  fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | grep -v fixup | fzf | cut -c -7 | xargs -I % -o git commit --fixup % $@"
-  recent = "for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/"
-  lmsg = "log --pretty=format:%s"
 [pull]
 	rebase = true
 [remote "origin"]
 	prune = true
+[include]
+    path = ~/.gitconfig.local

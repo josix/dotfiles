@@ -8,9 +8,7 @@ Plugin 'VundleVim/Vundle.vim'
 " My Bundles here:
 
 " original repos on github
-"Plugin 'itchyny/lightline.vim' "statusline
 Plugin 'bling/vim-bufferline' "vim bufferline bar
-"Plugin 'lokaltog/vim-powerline' "statusline
 Plugin 'bling/vim-airline' "statusline
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ervandew/supertab' "allows you to use <Tab> for all your insert
@@ -18,18 +16,15 @@ Plugin 'tpope/vim-fugitive' "status git branch
 Plugin 'ntpeters/vim-better-whitespace' "check the tailing space
 Plugin 'easymotion/vim-easymotion' "vim motion on speed
 Plugin 'scrooloose/nerdtree' "A tree explorer plugin for vim
-"Plugin 'AutoComplPop'
 Plugin 'altercation/vim-colors-solarized' " color scheme
 Plugin 'Zenburn' " color scheme
 Plugin 'vimwiki/vimwiki'
 Plugin 'majutsushi/tagbar'
 Plugin 'chrisbra/csv.vim'
-"Plugin 'w0rp/ale'
 Plugin 'gorodinskiy/vim-coloresque'
 Plugin 'kien/ctrlp.vim'
 Plugin 'preservim/nerdcommenter'
 Plugin 'prabirshrestha/vim-lsp'
-"Plugin 'rhysd/vim-grammarou'
 
 
 " All of your Plugins must be added before the following line

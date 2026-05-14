@@ -1,4 +1,27 @@
 # dotfiles
+
+## Quick Start
+
+```bash
+git clone <this-repo> ~/dotfiles
+cd ~/dotfiles
+./bootstrap.sh
+```
+
+`bootstrap.sh` will install Homebrew (if missing), run `brew bundle`, install oh-my-zsh and Vundle, then symlink all dotfiles into `$HOME` (with timestamped backups of any pre-existing files).
+
+After running bootstrap:
+
+1. Copy `zshrc.local.example` to `~/.zshrc.local` and fill in your machine-specific and work-specific settings (trino aliases, `VAULT_ADDR`, hatch PATH appends, etc.).
+2. Copy `gitconfig.local.example` to `~/.gitconfig.local` and fill in your name, email, and GPG signing key.
+3. Open a new shell (`exec zsh`) and run `:PluginInstall` inside vim.
+
+To regenerate the `Brewfile` from your currently-installed packages:
+
+```bash
+brew bundle dump --describe --force --file=Brewfile
+```
+
 # for zshrc
 1. install zsh
 ```bash
@@ -6,7 +29,7 @@ brew install zsh
 ```
 2. change default shell
 ```bash
-chsh -s /usr/local/bin/zsh
+chsh -s $(which zsh)
 ```
 or
 ```bash
@@ -29,7 +52,7 @@ git clone https://github.com/VundleVim/Vundle.vim.git
 2. install plunins
 ```vimscript
 # open vim and enter...
-:PlugInstall 
+:PluginInstall
 ```
 3. install powerline fonts
 ```bash
