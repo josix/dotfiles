@@ -50,7 +50,8 @@ link "$DOTFILES_DIR/zshrc"     "$HOME/.zshrc"
 link "$DOTFILES_DIR/vimrc"     "$HOME/.vimrc"
 link "$DOTFILES_DIR/gitconfig" "$HOME/.gitconfig"
 link "$DOTFILES_DIR/tmux.conf" "$HOME/.tmux.conf"
-link "$DOTFILES_DIR/p10k.zsh"  "$HOME/.p10k.zsh"
+link "$DOTFILES_DIR/p10k.zsh"    "$HOME/.p10k.zsh"
+link "$DOTFILES_DIR/claude.zsh"  "$HOME/.claude.zsh"
 
 # 6. Next steps
 cat <<EOF

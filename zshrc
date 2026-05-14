@@ -229,6 +229,9 @@ export PATH="$HOME/.duckdb/cli/latest":$PATH
 export PATH="$HOME/bin":$PATH
 export PATH="$HOME/.bun/bin:$PATH"
 
+# Claude Code multi-profile shim (see claude.zsh)
+[[ -f ~/.claude.zsh ]] && source ~/.claude.zsh
+
 # Load machine-specific / work-specific overrides if present
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
