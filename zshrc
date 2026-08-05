@@ -138,6 +138,11 @@ alias df="duf"
 alias diff="delta"
 alias f='fd . | rg'
 alias tmuxn='tmux new -s $(basename $PWD)'
+# kitty: copy terminfo to remote hosts so tmux/clear work over ssh
+if [ -n "$KITTY_WINDOW_ID" ]; then
+  export PATH="/Applications/kitty.app/Contents/MacOS:$PATH"
+  alias ssh='kitten ssh'
+fi
 # alias for git
 alias gii='git init && git commit --allow-empty -m "startup"'
 alias gunch='git update-index --assume-unchanged'
