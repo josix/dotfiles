@@ -53,6 +53,9 @@ link "$DOTFILES_DIR/tmux.conf" "$HOME/.tmux.conf"
 link "$DOTFILES_DIR/p10k.zsh"    "$HOME/.p10k.zsh"
 link "$DOTFILES_DIR/claude.zsh"  "$HOME/.claude.zsh"
 
+mkdir -p "$HOME/.config"
+link "$DOTFILES_DIR/nvim"        "$HOME/.config/nvim"
+
 # 6. Next steps
 cat <<EOF
 
@@ -65,6 +68,8 @@ Next steps:
      email, and GPG signing key.
   3. Open a new shell (or run: exec zsh)
   4. Inside vim, run :PluginInstall to install vim plugins.
+  5. Launch nvim once — lazy.nvim bootstraps itself and installs all plugins
+     pinned in lazy-lock.json; Mason then installs LSP servers on first use.
 
 To regenerate the Brewfile from your actual installed packages later:
   brew bundle dump --describe --force --file="$DOTFILES_DIR/Brewfile"

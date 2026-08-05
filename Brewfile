@@ -5,6 +5,8 @@
 brew "zsh"
 brew "git"
 brew "vim"
+brew "neovim"
+brew "lazygit"
 brew "tmux"
 
 # Modern CLI replacements

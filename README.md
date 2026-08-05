@@ -15,6 +15,7 @@ After running bootstrap:
 1. Copy `zshrc.local.example` to `~/.zshrc.local` and fill in your machine-specific and work-specific settings (trino aliases, `VAULT_ADDR`, hatch PATH appends, etc.).
 2. Copy `gitconfig.local.example` to `~/.gitconfig.local` and fill in your name, email, and GPG signing key.
 3. Open a new shell (`exec zsh`) and run `:PluginInstall` inside vim.
+4. Launch `nvim` once — lazy.nvim bootstraps itself and installs the plugins pinned in `nvim/lazy-lock.json` (LazyVim-based config, symlinked to `~/.config/nvim`); language servers install via Mason on first use. Enable/disable language support with `:LazyExtras`.
 
 To regenerate the `Brewfile` from your currently-installed packages:
 
