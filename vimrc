@@ -220,8 +220,9 @@ nn <silent> <leader>sw :call SyncWindow()<cr>
 set keywordprg=google
 augroup AutoSaveFolds
   autocmd!
-  autocmd BufWinLeave * mkview
-  autocmd BufWinEnter * silent loadview
+  " ?* = only named files; silent! swallows E32/E484 for new/unnamed buffers
+  autocmd BufWinLeave ?* if &buftype ==# '' | silent! mkview | endif
+  autocmd BufWinEnter ?* if &buftype ==# '' | silent! loadview | endif
 augroup END
 "============================================Mapping for Plugin=======================================================
 "Toggling for NERDTree
