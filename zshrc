@@ -98,7 +98,13 @@ HIST_STAMPS="mm/dd/yyyy"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git extract zoxide zsh-autosuggestions ssh-agent docker docker-compose kubectl kubectx ) # item after \ need to be installed
 
-  source $ZSH/oh-my-zsh.sh
+# Homebrew prefix — set by `brew shellenv` in ~/.zprofile; avoid $(brew --prefix) subshells (~200ms each)
+BREW_PREFIX="${HOMEBREW_PREFIX:-/opt/homebrew}"
+
+# setting for zsh-completions — must be on FPATH before oh-my-zsh runs compinit
+FPATH="$BREW_PREFIX/share/zsh-completions:$BREW_PREFIX/share/zsh/site-functions:$FPATH"
+
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -148,21 +154,25 @@ alias gii='git init && git commit --allow-empty -m "startup"'
 alias gunch='git update-index --assume-unchanged'
 alias gnunch='git update-index --no-assume-unchanged'
 
-# setting for zsh-completions
-FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
-autoload -Uz compinit
-compinit
-
+# pyenv — cache init script instead of running `pyenv init -` every startup (~300ms)
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+  if [[ ! -f "$ZSH_CACHE_DIR/pyenv-init.zsh" ]]; then
+    pyenv init - > "$ZSH_CACHE_DIR/pyenv-init.zsh.$$" && mv "$ZSH_CACHE_DIR/pyenv-init.zsh.$$" "$ZSH_CACHE_DIR/pyenv-init.zsh"
+  else
+    { pyenv init - > "$ZSH_CACHE_DIR/pyenv-init.zsh.$$" && mv "$ZSH_CACHE_DIR/pyenv-init.zsh.$$" "$ZSH_CACHE_DIR/pyenv-init.zsh" } &|
+  fi
+  source "$ZSH_CACHE_DIR/pyenv-init.zsh"
 fi
-
 
 # Created by `pipx` on 2022-06-11 20:50:27
 export PATH="$PATH:$HOME/.local/bin"
 autoload -U bashcompinit
 bashcompinit
-eval "$(register-python-argcomplete pipx)"
+# pipx completion — cached (~230ms per startup otherwise)
+if [[ ! -f "$ZSH_CACHE_DIR/pipx-argcomplete.zsh" ]]; then
+  register-python-argcomplete pipx > "$ZSH_CACHE_DIR/pipx-argcomplete.zsh"
+fi
+source "$ZSH_CACHE_DIR/pipx-argcomplete.zsh"
 
 # enter gi for showing the content of gitignore file
 function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
@@ -177,14 +187,32 @@ export PIPENV_VENV_IN_PROJECT=1
 export PIP_REQUIRE_VIRTUALENV=true
 
 export GOPATH=$HOME/go
-export PATH="$(go env GOPATH)/bin:$PATH"
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+export PATH="$GOPATH/bin:$PATH"
 
-[[ $commands[databricks] ]] && source <(databricks completion zsh)
+# kubectl completion is already handled (and cached) by the oh-my-zsh kubectl plugin.
 
+# databricks completion — cached like helm/k9s below
+if [[ $commands[databricks] ]]; then
+  if [[ ! -f "$ZSH_CACHE_DIR/completions/_databricks" ]]; then
+    databricks completion zsh > "$ZSH_CACHE_DIR/completions/_databricks.$$" && mv "$ZSH_CACHE_DIR/completions/_databricks.$$" "$ZSH_CACHE_DIR/completions/_databricks"
+    source "$ZSH_CACHE_DIR/completions/_databricks"
+  else
+    source "$ZSH_CACHE_DIR/completions/_databricks"
+    { databricks completion zsh > "$ZSH_CACHE_DIR/completions/_databricks.$$" && mv "$ZSH_CACHE_DIR/completions/_databricks.$$" "$ZSH_CACHE_DIR/completions/_databricks" } &|
+  fi
+fi
+
+# nvm — lazy-loaded: sourcing nvm.sh eagerly costs ~660ms per shell
 export NVM_DIR="$HOME/.nvm"
-[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+_load_nvm() {
+  unset -f nvm node npm npx _load_nvm 2>/dev/null
+  [ -s "$BREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$BREW_PREFIX/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "$BREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$BREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+}
+for _cmd in nvm node npm npx; do
+  eval "${_cmd}() { _load_nvm; ${_cmd} \"\$@\"; }"
+done
+unset _cmd
 # If the completion file does not exist, generate it and then source it
 # Otherwise, source it and regenerate in the background
 if [[ ! -f "$ZSH_CACHE_DIR/completions/_helm" ]]; then
@@ -224,12 +252,12 @@ function pushtag()
     echo "should input tag name"
   fi
 }
-export PATH="$(brew --prefix)/opt/openjdk@17/bin:$PATH"
+export PATH="$BREW_PREFIX/opt/openjdk@17/bin:$PATH"
 
 alias aider='aider --env-file ~/aider/.env'
 
-export PATH="$(brew --prefix)/opt/postgresql@13/bin:$PATH"
-export PATH="$(brew --prefix)/opt/libpq/bin:$PATH"
+export PATH="$BREW_PREFIX/opt/postgresql@13/bin:$PATH"
+export PATH="$BREW_PREFIX/opt/libpq/bin:$PATH"
 export PATH="$HOME/.duckdb/cli/latest":$PATH
 export PATH="$HOME/bin":$PATH
 export PATH="$HOME/.bun/bin:$PATH"
