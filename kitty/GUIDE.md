@@ -367,7 +367,7 @@ already applied.
 
 | Key | Action | Source |
 |---|---|---|
-| `cmd+shift+c` | vsplit, `bias=40`, `cwd=current`, launch `zsh -lic claude` | 3378 |
+| `cmd+shift+c` | vsplit, `bias=40`, `cwd=current`, launch `zsh -lic 'claude; exec zsh -il'` — pane drops to a shell when claude exits | 3378 |
 | `ctrl+a>a` | Same as above | 3379 |
 | `cmd+f` | Send the literal text `fg\r` — resumes a suspended job | 3383 |
 | `cmd+shift+f` | Send `\x18j` (Ctrl-X j) — fires the fzf job picker | 3387 |
