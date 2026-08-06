@@ -119,6 +119,17 @@ Prefer `<leader>bd` over raw `:bd` when a file is visible in a split — it
 uses snacks' bufdelete, which closes the buffer *without* collapsing your
 window layout, while raw `:bd` also closes any window showing that buffer.
 
+**Reopening a buffer you just closed** (the "reopen closed tab" of Neovim):
+
+| Key / command | Action |
+|---|---|
+| `:e #` | Reopen the alternate file — usually the buffer you just closed |
+| `<C-o>` | Jump back through the jumplist; lands you back in the closed file |
+| `<leader>fr` | Recent files picker — the closed file is at the top |
+
+This restores the *file*, not unsaved changes — anything discarded with
+`:bd!` / `<leader>bD` is gone.
+
 Sources: buffer navigation from LazyVim core `keymaps.lua:34-49` and
 `bufferline.nvim` keys in `ui.lua:7-19` (both bind `<S-h>/<S-l>/[b/]b` — the
 bufferline ones win since bufferline loads on `VeryLazy`); window keys from
