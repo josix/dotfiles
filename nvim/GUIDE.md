@@ -316,6 +316,43 @@ Practical pattern: `mA` in a file you keep returning to (global, survives
 switching files), `` `A `` to snap back. For quick within-screen jumps prefer
 Flash (`s`); marks earn their keep across files and longer distances.
 
+### Folding — collapse code blocks
+
+VSCode's "Fold Region" (`Cmd+Option+[`). The fold *commands* are Vim
+built-ins and always work; what varies is how folds get *created* (the
+`foldmethod` option). **This config has no fold customization**, so you're
+on Neovim's default `foldmethod=manual` — no folds exist until you make one
+yourself with `zf`.
+
+| Key | Action | VSCode equivalent |
+|---|---|---|
+| `za` | Toggle fold under cursor | `Cmd+Option+[` / `]` (toggle) |
+| `zo` / `zc` | Open / close fold under cursor | Fold / unfold region |
+| `zR` | Open **all** folds in file | `Cmd+K Cmd+J` (unfold all) |
+| `zM` | Close **all** folds in file | `Cmd+K Cmd+0` (fold all) |
+| `zj` / `zk` | Jump to next / previous fold | — |
+| `zf` + motion | Create a fold (manual method), e.g. `zfip` folds a paragraph; or visual-select lines then `zf` | Fold selection |
+| `zd` | Delete fold under cursor (manual folds only) | — |
+
+Quick automatic option with zero setup: `:set foldmethod=indent` folds by
+indentation for the current buffer.
+
+**Upgrade recipe — syntax-aware treesitter folds** (functions, classes,
+blocks fold at real code boundaries). Add to
+`nvim/lua/config/options.lua` (ch. 14):
+
+```lua
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel = 99 -- start with all folds open
+```
+
+`foldlevel = 99` matters — without it every file opens fully folded.
+(snacks.nvim doesn't handle folding, so this treesitter expr is the standard
+companion in a config like yours.) If you apply this, manual `zf`/`zd` stop
+applying — folds come from the syntax tree instead, and `za`/`zR`/`zM`
+work on them exactly the same.
+
 ---
 
 ## 6. Editing and modification
@@ -497,6 +534,29 @@ Sources: `<leader>cf`/`ca`/`cr` — `keymaps.lua:120-122` and
   buffer.
 - `:Mason` — opens the UI listing installed/missing formatters, linters, and
   LSP servers (see ch. 11).
+
+### Fixing lint errors with Claude Code
+
+`coder/claudecode.nvim` (`nvim/lua/plugins/claudecode.lua`) connects Neovim
+to the Claude Code CLI over the same IDE protocol the official VS Code
+extension uses. Once the split is open, Claude can read your LSP/lint
+diagnostics directly (via its `getDiagnostics` tool) — you don't need to
+copy-paste error messages.
+
+| Key | Action |
+|---|---|
+| `<leader>ac` | Toggle Claude Code terminal split (auto-connects to this nvim) |
+| `<leader>af` | Focus the Claude split |
+| `<leader>as` (visual) | Send selected lines to Claude as context |
+| `<leader>aa` | Accept Claude's proposed diff |
+| `<leader>ad` | Deny Claude's proposed diff |
+
+Workflow: open the file with squiggles, `<leader>ac`, ask *"fix the lint
+errors in this file"*, review the diff it proposes, `<leader>aa` to accept
+or `<leader>ad` to reject. For one specific error, visually select the
+offending lines and `<leader>as` first.
+
+Source: `nvim/lua/plugins/claudecode.lua`.
 
 ---
 
@@ -760,8 +820,8 @@ LazyVim defaults you accepted) and is live right now.
 
 ## 13. What's already customized
 
-Exactly four things differ from stock LazyVim in this config. Everything
-else you've read above is the LazyVim default — if you reset these four,
+Exactly five things differ from stock LazyVim in this config. Everything
+else you've read above is the LazyVim default — if you reset these five,
 you'd have a stock LazyVim install (plus your 18 chosen extras).
 
 1. **`jj` → Escape in insert mode**
@@ -788,6 +848,11 @@ you'd have a stock LazyVim install (plus your 18 chosen extras).
    `nvim/lua/plugins/minimap.lua` — VSCode-style minimap on the right edge,
    auto-opens on startup, `<leader>mm` to toggle (see ch. 11). Delete the
    file to remove it.
+
+5. **Claude Code integration — claudecode.nvim**
+   `nvim/lua/plugins/claudecode.lua` — connects nvim to the Claude Code CLI
+   over the IDE protocol so Claude can see your diagnostics; `<leader>ac`
+   to toggle (see ch. 8). Delete the file to remove it.
 
 ---
 
@@ -930,6 +995,7 @@ the new versions, since it's what pins exact commits for reproducibility.
 | `s` / `S` | Flash jump / Flash treesitter jump |
 | `m{a}` / `` `{a} `` | Set / jump to mark (uppercase = cross-file) |
 | `<c-o>` / `<c-i>` | Jump back / forward (jumplist) |
+| `za` / `zR` / `zM` | Toggle fold / open all / close all |
 | `]d` / `[d` | Next / prev diagnostic |
 | `]f` / `[f` | Next / prev function |
 | `]h` / `[h` | Next / prev git hunk |
