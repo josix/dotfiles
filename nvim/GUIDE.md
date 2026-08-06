@@ -692,6 +692,37 @@ Inside a terminal buffer, running `glow <file.md>` gives you a formatted,
 colorized Markdown preview right there in the terminal — you have `glow`
 installed for exactly this.
 
+### Terminal mode — getting in and out
+
+A terminal buffer has two states: **terminal mode** (keystrokes go to the
+shell, like a normal terminal) and regular normal mode (the buffer becomes
+scrollback you can navigate with Vim motions).
+
+| Key | Action |
+|---|---|
+| `i` or `a` (normal mode) | Enter terminal mode — start typing at the shell |
+| `<C-]>` | Leave terminal mode → normal mode (your custom mapping) |
+| `<c-h/j/k/l>` (terminal mode) | Jump straight to another window, no mode switch needed |
+
+`<C-]>` is a custom mapping (`config/keymaps.lua`) because both stock escapes
+are booby-trapped here: the built-in `<C-\><C-n>` invites a stray `Ctrl+\`,
+which is SIGQUIT and kills the shell, and snacks' double-`<Esc>` passes the
+first `<Esc>` through to the running program — in the Claude Code pane that's
+an interrupt (and the claudecode split doesn't get the snacks binding anyway).
+Single `<Esc>` always goes to the shell, so TUI apps like `fzf`, `lazygit`,
+and Claude Code keep working.
+
+Once in normal mode the whole scrollback is a regular buffer: search it with
+`/`, yank output with `y`, jump around with any motion. Press `i` to go back
+to the shell. Closing the window (or toggling with `<c-/>`) doesn't kill the
+shell — the process keeps running until you `exit` or the buffer is wiped.
+
+You can also open a plain terminal in a split with `:vsplit | terminal` when
+you want it side-by-side with code instead of floating.
+
+Source: `<C-]>` mapping — `nvim/lua/config/keymaps.lua`; the rest is core
+Neovim (`:help terminal`).
+
 ### Sessions — persistence.nvim
 
 Session = "reopen exactly the files/windows/tabs I had open," closer to
@@ -1037,6 +1068,7 @@ the new versions, since it's what pins exact commits for reproducibility.
 | `<leader>gg` | Lazygit |
 | `<leader>ghs` / `<leader>ghr` | Stage / reset hunk |
 | `<c-/>` | Toggle terminal |
+| `<C-]>` | Terminal mode → normal mode |
 | `<leader>qs` / `<leader>ql` | Restore session (cwd / last) |
 | `<leader>.` | Scratch buffer |
 | `<leader>uz` | Zen mode |
