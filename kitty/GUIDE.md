@@ -55,15 +55,15 @@ own model, plus an iTerm2-flavored `cmd` layer for anything tmux never had.
 
 ### Habit migration
 
-| tmux/iTerm2 habit | Source of habit | kitty equivalent | Source |
-|---|---|---|---|
-| `C-a` prefix | `tmux.conf:19` | `ctrl+a` prefix | — |
-| `C-a C-a` sends literal prefix | `tmux.conf:20` | `ctrl+a>ctrl+a` sends literal `\x01` | 3404 |
-| `bind \|` / `bind _` split | `tmux.conf:24,26` | `ctrl+a>shift+backslash` / `ctrl+a>shift+minus` | 3406-3407 |
-| `bind h/j/k/l resize 10` | `tmux.conf:27-30` | `ctrl+a>h/l/k/j resize_window ... 5` | 3414-3417 |
-| `setw mode-keys vi` | `tmux.conf:33` | vi-style keys in the scrollback pager | 3330, 3453 |
-| iTerm2 `Cmd+D` / `Cmd+Shift+D` (split) | iTerm2 default | `cmd+d` / `cmd+shift+d` | 3456-3457 |
-| iTerm2 `Cmd+K` (clear) / `Cmd+Enter` (fullscreen) | iTerm2 default | `cmd+k` / `cmd+enter` | 3469, 3471 |
+| tmux/iTerm2 habit                                 | Source of habit   | kitty equivalent                                | Source     |
+| ------------------------------------------------- | ----------------- | ----------------------------------------------- | ---------- |
+| `C-a` prefix                                      | `tmux.conf:19`    | `ctrl+a` prefix                                 | —          |
+| `C-a C-a` sends literal prefix                    | `tmux.conf:20`    | `ctrl+a>ctrl+a` sends literal `\x01`            | 3404       |
+| `bind \|` / `bind _` split                        | `tmux.conf:24,26` | `ctrl+a>shift+backslash` / `ctrl+a>shift+minus` | 3406-3407  |
+| `bind h/j/k/l resize 10`                          | `tmux.conf:27-30` | `ctrl+a>h/l/k/j resize_window ... 5`            | 3414-3417  |
+| `setw mode-keys vi`                               | `tmux.conf:33`    | vi-style keys in the scrollback pager           | 3330, 3453 |
+| iTerm2 `Cmd+D` / `Cmd+Shift+D` (split)            | iTerm2 default    | `cmd+d` / `cmd+shift+d`                         | 3456-3457  |
+| iTerm2 `Cmd+K` (clear) / `Cmd+Enter` (fullscreen) | iTerm2 default    | `cmd+k` / `cmd+enter`                           | 3469, 3471 |
 
 Note the resize step differs: tmux resized by 10 cells, your kitty binding
 resizes by 5 (3414-3417) — same keys, gentler step.
@@ -109,34 +109,33 @@ all three so you're never stuck wondering which layer owns a given key.
 
 ### Create
 
-| Key | Action | Source |
-|---|---|---|
-| `ctrl+a>shift+backslash` (`\|`) | vsplit, cwd=current | 3406 |
-| `ctrl+a>shift+minus` (`_`) | hsplit, cwd=current | 3407 |
-| `ctrl+a>backslash` | vsplit, cwd=current | 3408 |
-| `ctrl+a>minus` | hsplit, cwd=current | 3409 |
-| `ctrl+backslash` (no prefix) | vsplit, cwd=current | 3411 |
-| `ctrl+minus` (no prefix) | hsplit, cwd=current | 3412 |
-| `cmd+d` | vsplit, cwd=current | 3456 |
-| `cmd+shift+d` | hsplit, cwd=current | 3457 |
+| Key                             | Action              | Source |
+| ------------------------------- | ------------------- | ------ |
+| `ctrl+a>shift+backslash` (`\|`) | vsplit, cwd=current | 3406   |
+| `ctrl+a>shift+minus` (`_`)      | hsplit, cwd=current | 3407   |
+| `ctrl+a>backslash`              | vsplit, cwd=current | 3408   |
+| `ctrl+a>minus`                  | hsplit, cwd=current | 3409   |
+| `ctrl+minus` (no prefix)        | hsplit, cwd=current | 3412   |
+| `cmd+d`                         | vsplit, cwd=current | 3456   |
+| `cmd+shift+d`                   | hsplit, cwd=current | 3457   |
 
 ### Navigate
 
-| Key | Action | Source |
-|---|---|---|
-| `ctrl+a>left/down/up/right` | move focus in direction | 3419-3422 |
-| `shift+left/right/up/down` | move focus (no prefix) | 3427-3430 |
-| `cmd+alt+left/right/up/down` | move focus (no prefix) | 3458-3461 |
+| Key                           | Action                               | Source    |
+| ----------------------------- | ------------------------------------ | --------- |
+| `ctrl+a>left/down/up/right`   | move focus in direction              | 3419-3422 |
+| `shift+left/right/up/down`    | move focus (no prefix)               | 3427-3430 |
+| `cmd+alt+left/right/up/down`  | move focus (no prefix)               | 3458-3461 |
 | `ctrl+alt+left/right/up/down` | move focus (fallback, see Gotcha 10) | 3464-3467 |
 
 ### Cycle, swap, close
 
-| Key | Action | Source |
-|---|---|---|
-| `ctrl+a>o` | cycle to next window | 3424 |
-| `ctrl+a>m` | swap current window with another | 3433 |
-| `ctrl+a>x` | close window, with confirmation | 3435 |
-| `ctrl+backspace` | close window, with confirmation | 3436 |
+| Key              | Action                           | Source |
+| ---------------- | -------------------------------- | ------ |
+| `ctrl+a>o`       | cycle to next window             | 3424   |
+| `ctrl+a>m`       | swap current window with another | 3433   |
+| `ctrl+a>x`       | close window, with confirmation  | 3435   |
+| `ctrl+backspace` | close window, with confirmation  | 3436   |
 
 Both close bindings run `close_window_with_confirmation` — kitty prompts
 before killing a pane that has a running foreground process (so an
@@ -182,23 +181,23 @@ at a time — this is your "zoom").
 
 ### Switch layout
 
-| Key | Action | Source |
-|---|---|---|
-| `ctrl+a>t` | Tall — big main pane left, others stacked right | 3352 |
-| `ctrl+a>f` | Fat — big main pane on top, others side by side below | 3353 |
-| `ctrl+a>g` | Grid — equal panes, good for tailing several logs | 3354 |
-| `ctrl+a>s` | Splits — freeform manual splits (the default) | 3355 |
-| `ctrl+a>space` | Cycle to next layout | 3356 |
-| `ctrl+a>z` | Toggle stack layout (zoom current pane) | 3425 |
+| Key            | Action                                                | Source |
+| -------------- | ----------------------------------------------------- | ------ |
+| `ctrl+a>t`     | Tall — big main pane left, others stacked right       | 3352   |
+| `ctrl+a>f`     | Fat — big main pane on top, others side by side below | 3353   |
+| `ctrl+a>g`     | Grid — equal panes, good for tailing several logs     | 3354   |
+| `ctrl+a>s`     | Splits — freeform manual splits (the default)         | 3355   |
+| `ctrl+a>space` | Cycle to next layout                                  | 3356   |
+| `ctrl+a>z`     | Toggle stack layout (zoom current pane)               | 3425   |
 
 ### Resize
 
-| Key | Action | Source |
-|---|---|---|
-| `ctrl+a>r` | Enter interactive resize mode (arrows/hjkl, Esc to exit) | 3358 |
-| `ctrl+a>equal` | Reset all pane sizes to equal | 3360 |
-| `cmd+left/right/up/down` | One-keystroke resize narrower/wider/taller/shorter | 3362-3365 |
-| `ctrl+a>h/l/k/j` | One-keystroke resize narrower/wider/taller/shorter, step 5 | 3414-3417 |
+| Key                      | Action                                                     | Source    |
+| ------------------------ | ---------------------------------------------------------- | --------- |
+| `ctrl+a>r`               | Enter interactive resize mode (arrows/hjkl, Esc to exit)   | 3358      |
+| `ctrl+a>equal`           | Reset all pane sizes to equal                              | 3360      |
+| `cmd+left/right/up/down` | One-keystroke resize narrower/wider/taller/shorter         | 3362-3365 |
+| `ctrl+a>h/l/k/j`         | One-keystroke resize narrower/wider/taller/shorter, step 5 | 3414-3417 |
 
 Resizing is only meaningful in `splits`, `tall`, and `fat` — panes in `grid`
 are always equal-sized and `stack` shows one pane at a time, so resize
@@ -219,33 +218,33 @@ you just need a single nudge.
 
 ### Manage
 
-| Key | Action | Source |
-|---|---|---|
-| `ctrl+a>c` | New tab, cwd = current pane's cwd | 3438 |
-| `ctrl+a>shift+7` (`&`) | Close tab | 3441 |
-| `ctrl+a>comma` | Set/rename tab title | 3442 |
+| Key                    | Action                            | Source |
+| ---------------------- | --------------------------------- | ------ |
+| `ctrl+a>c`             | New tab, cwd = current pane's cwd | 3438   |
+| `ctrl+a>shift+7` (`&`) | Close tab                         | 3441   |
+| `ctrl+a>comma`         | Set/rename tab title              | 3442   |
 
 ### Navigate
 
-| Key | Action | Source |
-|---|---|---|
-| `ctrl+a>n` | Next tab | 3439 |
-| `ctrl+a>p` | Previous tab | 3440 |
-| `ctrl+a>1`..`9` | Go to tab 1-9 | 3443-3451 |
-| `cmd+1`..`8` | Go to tab 1-8 | 3477-3484 |
-| `cmd+9` | Go to the **last** tab (`goto_tab -1`) | 3485 |
+| Key             | Action                                 | Source    |
+| --------------- | -------------------------------------- | --------- |
+| `ctrl+a>n`      | Next tab                               | 3439      |
+| `ctrl+a>p`      | Previous tab                           | 3440      |
+| `ctrl+a>1`..`9` | Go to tab 1-9                          | 3443-3451 |
+| `cmd+1`..`8`    | Go to tab 1-8                          | 3477-3484 |
+| `cmd+9`         | Go to the **last** tab (`goto_tab -1`) | 3485      |
 
 ### Appearance
 
-| Setting | Value | Source |
-|---|---|---|
-| `tab_bar_edge` | `top` | 3488 |
-| `tab_bar_style` | `powerline` | 3489 |
-| `tab_title_template` | `"{index}:{title}"` | 3490 |
+| Setting              | Value               | Source |
+| -------------------- | ------------------- | ------ |
+| `tab_bar_edge`       | `top`               | 3488   |
+| `tab_bar_style`      | `powerline`         | 3489   |
+| `tab_title_template` | `"{index}:{title}"` | 3490   |
 
 > **Gotcha 12: `cmd+9` is asymmetric with `ctrl+a>9`.**
 > `ctrl+a>9` always jumps to literal tab index 9 (`goto_tab 9`, 3451). `cmd+9`
-> jumps to whatever tab is *last* (`goto_tab -1`, 3485), matching iTerm2's
+> jumps to whatever tab is _last_ (`goto_tab -1`, 3485), matching iTerm2's
 > "last tab" convention for `Cmd+9`. If you have fewer than 9 tabs open,
 > these two keys can land you in completely different places. (See Gotcha 11
 > for why `&` needs a US keyboard layout, same as `ctrl+a>shift+7` here.)
@@ -254,15 +253,15 @@ you just need a single nudge.
 
 ## 5. Scrollback, copy, and prompt jumping
 
-| Setting/Key | Value/Action | Source |
-|---|---|---|
-| `copy_on_select` | `yes` — mouse-selecting text copies it, like iTerm2 | 3327 |
-| `scrollback_lines` | `10000` | 3328 |
-| `scrollback_pager` | `less --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER` (vi-style keys) | 3330 |
-| `ctrl+a>[` | Open scrollback in the pager (copy-mode-ish) | 3453 |
-| `cmd+k` | Clear screen + scrollback up to cursor | 3469 |
-| `cmd+shift+up` / `cmd+shift+down` | Jump to previous/next shell prompt | 3473-3474 |
-| `ctrl+a>e` | Show the last command's output in the pager | 3391 |
+| Setting/Key                       | Value/Action                                                                    | Source    |
+| --------------------------------- | ------------------------------------------------------------------------------- | --------- |
+| `copy_on_select`                  | `yes` — mouse-selecting text copies it, like iTerm2                             | 3327      |
+| `scrollback_lines`                | `10000`                                                                         | 3328      |
+| `scrollback_pager`                | `less --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER` (vi-style keys) | 3330      |
+| `ctrl+a>[`                        | Open scrollback in the pager (copy-mode-ish)                                    | 3453      |
+| `cmd+k`                           | Clear screen + scrollback up to cursor                                          | 3469      |
+| `cmd+shift+up` / `cmd+shift+down` | Jump to previous/next shell prompt                                              | 3473-3474 |
+| `ctrl+a>e`                        | Show the last command's output in the pager                                     | 3391      |
 
 The last three rows depend on **shell integration** (default `enabled`,
 commented template line ~2178) — kitty's shell hooks that mark where each
@@ -283,12 +282,12 @@ to previous prompt" and "show last command's output" have nothing to jump to.
 
 ## 6. Hints and broadcast
 
-| Key | Action | Source |
-|---|---|---|
-| `ctrl+a>y` | Pick a line on screen (hints overlay), copy it to the clipboard | 3393 |
-| `ctrl+a>/` | Pick a file path on screen, insert it at the current prompt | 3395 |
-| `ctrl+a>u` | Pick and open a URL on screen | 3397 |
-| `ctrl+a>b` | Open a broadcast pane: typed input goes to **every** pane in this tab | 3399 |
+| Key        | Action                                                                | Source |
+| ---------- | --------------------------------------------------------------------- | ------ |
+| `ctrl+a>y` | Pick a line on screen (hints overlay), copy it to the clipboard       | 3393   |
+| `ctrl+a>/` | Pick a file path on screen, insert it at the current prompt           | 3395   |
+| `ctrl+a>u` | Pick and open a URL on screen                                         | 3397   |
+| `ctrl+a>b` | Open a broadcast pane: typed input goes to **every** pane in this tab | 3399   |
 
 `ctrl+a>y` and `ctrl+a>/` both use `kitten hints`, but with different
 `--program` targets: `--program @` (3393) sends the picked text to the
@@ -365,14 +364,14 @@ already applied.
 
 ## 8. Claude Code and job control
 
-| Key | Action | Source |
-|---|---|---|
-| `cmd+shift+c` | vsplit, `bias=40`, `cwd=current`, launch `zsh -lic 'claude; exec zsh -il'` — pane drops to a shell when claude exits | 3378 |
-| `ctrl+a>a` | Same as above | 3379 |
-| `cmd+f` | Send the literal text `fg\r` — resumes a suspended job | 3383 |
-| `cmd+shift+f` | Send `\x18j` (Ctrl-X j) — fires the fzf job picker | 3387 |
-| `cmd+/` | `search_scrollback` — open scrollback in the pager, search with `/` | 3400 |
-| `cmd+enter` | Toggle fullscreen | 3471 |
+| Key           | Action                                                                                                               | Source |
+| ------------- | -------------------------------------------------------------------------------------------------------------------- | ------ |
+| `cmd+shift+c` | vsplit, `bias=40`, `cwd=current`, launch `zsh -lic 'claude; exec zsh -il'` — pane drops to a shell when claude exits | 3378   |
+| `ctrl+a>a`    | Same as above                                                                                                        | 3379   |
+| `cmd+f`       | Send the literal text `fg\r` — resumes a suspended job                                                               | 3383   |
+| `cmd+shift+f` | Send `\x18j` (Ctrl-X j) — fires the fzf job picker                                                                   | 3387   |
+| `cmd+/`       | `search_scrollback` — open scrollback in the pager, search with `/`                                                  | 3400   |
+| `cmd+enter`   | Toggle fullscreen                                                                                                    | 3471   |
 
 The `Cmd+Shift+F` picker isn't a kitty feature — it's a zsh ZLE widget,
 `fzf-job-picker`, defined at `zshrc:244-271` and bound to `^Xj` at
@@ -387,7 +386,7 @@ background; `cmd+f` resumes it directly if it's the only suspended job
 multiple suspended jobs and need to choose which one to bring back.
 
 Why this exists at all: `ctrl+a>a` and `cmd+shift+c` (3378-3379) each spawn a
-*fresh* `claude` process in a new pane — fine for starting a new session, but
+_fresh_ `claude` process in a new pane — fine for starting a new session, but
 wasteful if you already have one running and just stepped away from it with
 `Ctrl-Z`. The `fg`/job-picker pair is the faster path back to a session
 that's still alive in the background, in the same pane you left it in,
@@ -397,30 +396,30 @@ instead of spinning up a second one.
 
 ## 9. Appearance and shell
 
-| Setting | Value | Source |
-|---|---|---|
-| `shell` | `/opt/homebrew/bin/zsh --login` | 3309 |
-| `env SHELL` | `/opt/homebrew/bin/zsh` | 3310 |
-| `font_family` | `Fira Code` | 3313 |
-| `bold_font` / `italic_font` / `bold_italic_font` | `auto` | 3314-3316 |
-| `font_size` | `13.0` | 3317 |
-| `symbol_map` | Nerd Font private-use ranges routed to `FiraCode Nerd Font` (iTerm2 "Non-ASCII font" equivalent, comments 3318-3319) | 3320 |
-| `macos_option_as_alt` | `left` (left Option = Meta, right Option stays normal) | 3325 |
-| `copy_on_select` | `yes` | 3327 |
-| `scrollback_lines` | `10000` | 3328 |
-| `scrollback_pager` | vi-style `less` invocation | 3330 |
-| `window_border_width` | `1px` | 3333 |
-| `draw_minimal_borders` | `yes` | 3334 |
-| `window_margin_width` / `window_padding_width` | `0` | 3335-3336 |
-| `inactive_text_alpha` | `-0.8` (negative = only fades when >1 pane visible; semantics documented in-file at 1264-1274) | 3339 |
-| theme include | `include current-theme.conf` (`:5`, Zenburn, managed via `shipwright.nvim`) | :5 |
-| `active_border_color` | `#f0dfaf` | 1248 |
-| `inactive_border_color` | `#3f3f3f` | 1253 |
-| tab bar (top, powerline, `{index}:{title}`) | see chapter 4 | 3488-3490 |
+| Setting                                          | Value                                                                                                                | Source    |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- | --------- |
+| `shell`                                          | `/opt/homebrew/bin/zsh --login`                                                                                      | 3309      |
+| `env SHELL`                                      | `/opt/homebrew/bin/zsh`                                                                                              | 3310      |
+| `font_family`                                    | `Fira Code`                                                                                                          | 3313      |
+| `bold_font` / `italic_font` / `bold_italic_font` | `auto`                                                                                                               | 3314-3316 |
+| `font_size`                                      | `13.0`                                                                                                               | 3317      |
+| `symbol_map`                                     | Nerd Font private-use ranges routed to `FiraCode Nerd Font` (iTerm2 "Non-ASCII font" equivalent, comments 3318-3319) | 3320      |
+| `macos_option_as_alt`                            | `left` (left Option = Meta, right Option stays normal)                                                               | 3325      |
+| `copy_on_select`                                 | `yes`                                                                                                                | 3327      |
+| `scrollback_lines`                               | `10000`                                                                                                              | 3328      |
+| `scrollback_pager`                               | vi-style `less` invocation                                                                                           | 3330      |
+| `window_border_width`                            | `1px`                                                                                                                | 3333      |
+| `draw_minimal_borders`                           | `yes`                                                                                                                | 3334      |
+| `window_margin_width` / `window_padding_width`   | `0`                                                                                                                  | 3335-3336 |
+| `inactive_text_alpha`                            | `-0.8` (negative = only fades when >1 pane visible; semantics documented in-file at 1264-1274)                       | 3339      |
+| theme include                                    | `include current-theme.conf` (`:5`, Zenburn, managed via `shipwright.nvim`)                                          | :5        |
+| `active_border_color`                            | `#f0dfaf`                                                                                                            | 1248      |
+| `inactive_border_color`                          | `#3f3f3f`                                                                                                            | 1253      |
+| tab bar (top, powerline, `{index}:{title}`)      | see chapter 4                                                                                                        | 3488-3490 |
 
 > **Gotcha 2: dead duplicates earlier in the file.**
 > `window_border_width 2.5pt` (1180), `draw_minimal_borders no` (1188), and
-> `inactive_text_alpha 0.35` (1262) are all set *earlier* in the file, inside
+> `inactive_text_alpha 0.35` (1262) are all set _earlier_ in the file, inside
 > the mostly-template window-border section — and all three are silently
 > overridden by the real values later in the personal block (3333, 3334,
 > 3339 respectively; kitty applies "last assignment wins" across the whole
@@ -429,7 +428,7 @@ instead of spinning up a second one.
 
 > **Gotcha 3: `current-theme.conf` is not in this repo.**
 > `include current-theme.conf` (:5) only resolves because
-> `~/.config/kitty/current-theme.conf` exists on disk *outside* the repo —
+> `~/.config/kitty/current-theme.conf` exists on disk _outside_ the repo —
 > a search of this repo turns up no `current-theme.conf` anywhere. On a
 > fresh machine, bootstrapping this repo alone gives you a broken `include`
 > and no color palette. **Fix:** either run `kitten themes Zenburn` on the
@@ -460,20 +459,20 @@ The following are inventoried directly from the commented `# map` lines
 present in this file's own template (not from memory) — grep for `# map` if
 you want the full list, this is the high-value subset:
 
-| Key | Action | Template line |
-|---|---|---|
-| `kitty_mod+c` (fallback `cmd+c`) | Copy to clipboard | 2579 (2592) |
-| `kitty_mod+v` (fallback `cmd+v`) | Paste from clipboard | 2596 (2597) |
-| `kitty_mod+enter` (fallback `cmd+enter`\*) | New window | 2735 (2736) |
-| `kitty_mod+n` (fallback `cmd+n`) | New OS window | 2766 (2767) |
-| `kitty_mod+w` | Close window | 2775 |
-| `kitty_mod+]` / `kitty_mod+[` | Next / previous window | 2780 / 2784 |
-| `kitty_mod+t` (fallback `cmd+t`) | New tab | 2886 (2887) |
-| `kitty_mod+q` (fallback `cmd+w`) | Close tab | 2891 (2892) |
-| `kitty_mod+right` / `kitty_mod+left` | Next / previous tab | 2874 / 2880 |
-| `kitty_mod+l` | Next layout | 2934 |
-| `kitty_mod+equal` / `kitty_mod+minus` | Increase / decrease font size | 2961 / 2970 |
-| `kitty_mod+1`..`9` | First..ninth window (window, not tab) | 2805-2846 |
+| Key                                        | Action                                | Template line |
+| ------------------------------------------ | ------------------------------------- | ------------- |
+| `kitty_mod+c` (fallback `cmd+c`)           | Copy to clipboard                     | 2579 (2592)   |
+| `kitty_mod+v` (fallback `cmd+v`)           | Paste from clipboard                  | 2596 (2597)   |
+| `kitty_mod+enter` (fallback `cmd+enter`\*) | New window                            | 2735 (2736)   |
+| `kitty_mod+n` (fallback `cmd+n`)           | New OS window                         | 2766 (2767)   |
+| `kitty_mod+w`                              | Close window                          | 2775          |
+| `kitty_mod+]` / `kitty_mod+[`              | Next / previous window                | 2780 / 2784   |
+| `kitty_mod+t` (fallback `cmd+t`)           | New tab                               | 2886 (2887)   |
+| `kitty_mod+q` (fallback `cmd+w`)           | Close tab                             | 2891 (2892)   |
+| `kitty_mod+right` / `kitty_mod+left`       | Next / previous tab                   | 2874 / 2880   |
+| `kitty_mod+l`                              | Next layout                           | 2934          |
+| `kitty_mod+equal` / `kitty_mod+minus`      | Increase / decrease font size         | 2961 / 2970   |
+| `kitty_mod+1`..`9`                         | First..ninth window (window, not tab) | 2805-2846     |
 
 \* `kitty_mod+enter`/`cmd+enter` new-window (2735-2736) is stock, but your
 personal block redefines plain `cmd+enter` to `toggle_fullscreen` (3471) —
@@ -490,24 +489,24 @@ binary.
 
 ## 11. What's already customized
 
-Everything below is the *entire* diff from stock kitty. Read top to bottom
+Everything below is the _entire_ diff from stock kitty. Read top to bottom
 and you've read the whole personal layer:
 
-| Area | Lines |
-|---|---|
-| Shell (Homebrew zsh, login) | 3309-3310 |
-| Font (Fira Code + Nerd Font symbol map) | 3313-3320 |
-| macOS/general behavior (Option-as-Meta, copy-on-select, scrollback) | 3325-3330 |
-| Borders (width, minimal, margin/padding, inactive fade) | 3333-3339 |
-| Layouts (`enabled_layouts`) | 3344 |
-| Prefix system (layouts, resize, splits, nav, tabs, scrollback) | 3352-3453 |
-| Workspace launchers (Dev tab, Logs tab, remote control) | 3369-3374 |
-| Claude Code + job control | 3378-3387 |
-| Hints + broadcast | 3391-3399 |
-| iTerm2 `cmd` layer (splits, nav, clear, fullscreen, prompt jump, tab jump) | 3455-3485 |
-| Tab bar appearance | 3488-3490 |
-| Theme include | :5 |
-| Border colors | 1248, 1253 |
+| Area                                                                       | Lines      |
+| -------------------------------------------------------------------------- | ---------- |
+| Shell (Homebrew zsh, login)                                                | 3309-3310  |
+| Font (Fira Code + Nerd Font symbol map)                                    | 3313-3320  |
+| macOS/general behavior (Option-as-Meta, copy-on-select, scrollback)        | 3325-3330  |
+| Borders (width, minimal, margin/padding, inactive fade)                    | 3333-3339  |
+| Layouts (`enabled_layouts`)                                                | 3344       |
+| Prefix system (layouts, resize, splits, nav, tabs, scrollback)             | 3352-3453  |
+| Workspace launchers (Dev tab, Logs tab, remote control)                    | 3369-3374  |
+| Claude Code + job control                                                  | 3378-3387  |
+| Hints + broadcast                                                          | 3391-3399  |
+| iTerm2 `cmd` layer (splits, nav, clear, fullscreen, prompt jump, tab jump) | 3455-3485  |
+| Tab bar appearance                                                         | 3488-3490  |
+| Theme include                                                              | :5         |
+| Border colors                                                              | 1248, 1253 |
 
 Every other line in `kitty.conf` — the roughly 3000 lines outside this
 table's ranges — is kitty's stock commented template, untouched.
@@ -583,12 +582,12 @@ down.
 
 ### First response to "something's wrong"
 
-| Symptom | Run this |
-|---|---|
-| Need the fully effective config + live keymap | `kitty --debug-config` |
-| Need to see exactly what a keypress sends | `kitty +kitten show_key` |
-| Need to inspect the live pane/tab tree | `kitten @ ls` |
-| Not sure which flag inspects raw input | Prefer `kitty --debug-config` and `kitty +kitten show_key` over guessing at flag names — let their live output be the tiebreaker over anything documentation (including this guide) claims |
+| Symptom                                       | Run this                                                                                                                                                                                   |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Need the fully effective config + live keymap | `kitty --debug-config`                                                                                                                                                                     |
+| Need to see exactly what a keypress sends     | `kitty +kitten show_key`                                                                                                                                                                   |
+| Need to inspect the live pane/tab tree        | `kitten @ ls`                                                                                                                                                                              |
+| Not sure which flag inspects raw input        | Prefer `kitty --debug-config` and `kitty +kitten show_key` over guessing at flag names — let their live output be the tiebreaker over anything documentation (including this guide) claims |
 
 > **Gotcha: the Dev-tab launcher never sees `.zshrc` aliases.** See chapter
 > 7, Gotcha 1 in full — short version: it runs a non-interactive `zsh -lc`,
@@ -607,47 +606,47 @@ down.
 
 ### Condensed cheat sheet
 
-| Key | Action |
-|---|---|
-| `ctrl+a>ctrl+a` | Send literal Ctrl-A through |
-| `ctrl+a>\|` / `ctrl+a>_` | vsplit / hsplit |
-| `ctrl+backslash` / `ctrl+minus` | vsplit / hsplit, no prefix |
-| `cmd+d` / `cmd+shift+d` | vsplit / hsplit |
-| `ctrl+a>left/down/up/right` | Move focus |
-| `shift+arrows` | Move focus, no prefix |
-| `cmd+alt+arrows` / `ctrl+alt+arrows` | Move focus (Raycast fallback) |
-| `ctrl+a>o` | Cycle panes |
-| `ctrl+a>m` | Swap panes |
-| `ctrl+a>x` / `ctrl+backspace` | Close pane |
-| `ctrl+a>t/f/g/s` | Tall / Fat / Grid / Splits layout |
-| `ctrl+a>space` | Next layout |
-| `ctrl+a>z` | Toggle zoom (stack) |
-| `ctrl+a>r` | Interactive resize |
-| `ctrl+a>equal` | Reset pane sizes |
-| `cmd+arrows` | Resize one step |
-| `ctrl+a>h/l/k/j` | Resize one step (5 cells) |
-| `ctrl+a>c` | New tab |
-| `ctrl+a>&` | Close tab |
-| `ctrl+a>,` | Rename tab |
-| `ctrl+a>n` / `ctrl+a>p` | Next / previous tab |
-| `ctrl+a>1..9` | Goto tab N |
-| `cmd+1..8` | Goto tab N |
-| `cmd+9` | Goto last tab |
-| `ctrl+a>[` | Scrollback pager |
-| `cmd+k` | Clear screen + scrollback |
-| `cmd+shift+up/down` | Jump to prev/next prompt |
-| `ctrl+a>e` | Show last command's output |
-| `ctrl+a>y` | Hint-copy a line |
-| `ctrl+a>/` | Hint-insert a path at prompt |
-| `ctrl+a>u` | Hint-open a URL |
-| `ctrl+a>b` | Broadcast to all panes in tab |
-| `ctrl+a>v` | Dev tab (nvim on top, shell below) |
-| `ctrl+a>shift+l` | Logs tab (4-shell grid) |
-| `cmd+shift+c` / `ctrl+a>a` | Launch Claude Code |
-| `cmd+f` | Resume suspended job |
-| `cmd+shift+f` | Job picker |
-| `cmd+/` | Search scrollback in pager |
-| `cmd+enter` | Toggle fullscreen |
-| `kitty --debug-config` | Effective config + live keymap |
-| `kitten @ ls` | Pane/tab tree |
-| `kitty +kitten show_key` | Inspect raw keypress |
+| Key                                  | Action                                           |
+| ------------------------------------ | ------------------------------------------------ |
+| `ctrl+a>ctrl+a`                      | Send literal Ctrl-A through                      |
+| `ctrl+a>\|` / `ctrl+a>_`             | vsplit / hsplit                                  |
+| `ctrl+minus`                         | hsplit, no prefix (Ctrl+\ left free for SIGQUIT) |
+| `cmd+d`                              | vsplit                                           |
+| `ctrl+a>left/down/up/right`          | Move focus                                       |
+| `shift+arrows`                       | Move focus, no prefix                            |
+| `cmd+alt+arrows` / `ctrl+alt+arrows` | Move focus (Raycast fallback)                    |
+| `ctrl+a>o`                           | Cycle panes                                      |
+| `ctrl+a>m`                           | Swap panes                                       |
+| `ctrl+a>x` / `ctrl+backspace`        | Close pane                                       |
+| `ctrl+a>t/f/g/s`                     | Tall / Fat / Grid / Splits layout                |
+| `ctrl+a>space`                       | Next layout                                      |
+| `ctrl+a>z`                           | Toggle zoom (stack)                              |
+| `ctrl+a>r`                           | Interactive resize                               |
+| `ctrl+a>equal`                       | Reset pane sizes                                 |
+| `cmd+arrows`                         | Resize one step                                  |
+| `ctrl+a>h/l/k/j`                     | Resize one step (5 cells)                        |
+| `ctrl+a>c`                           | New tab                                          |
+| `ctrl+a>&`                           | Close tab                                        |
+| `ctrl+a>,`                           | Rename tab                                       |
+| `ctrl+a>n` / `ctrl+a>p`              | Next / previous tab                              |
+| `ctrl+a>1..9`                        | Goto tab N                                       |
+| `cmd+1..8`                           | Goto tab N                                       |
+| `cmd+9`                              | Goto last tab                                    |
+| `ctrl+a>[`                           | Scrollback pager                                 |
+| `cmd+k`                              | Clear screen + scrollback                        |
+| `cmd+shift+up/down`                  | Jump to prev/next prompt                         |
+| `ctrl+a>e`                           | Show last command's output                       |
+| `ctrl+a>y`                           | Hint-copy a line                                 |
+| `ctrl+a>/`                           | Hint-insert a path at prompt                     |
+| `ctrl+a>u`                           | Hint-open a URL                                  |
+| `ctrl+a>b`                           | Broadcast to all panes in tab                    |
+| `ctrl+a>v`                           | Dev tab (nvim on top, shell below)               |
+| `ctrl+a>shift+l`                     | Logs tab (4-shell grid)                          |
+| `cmd+shift+c` / `ctrl+a>a`           | Launch Claude Code                               |
+| `cmd+f`                              | Resume suspended job                             |
+| `cmd+shift+f`                        | Job picker                                       |
+| `cmd+/`                              | Search scrollback in pager                       |
+| `cmd+enter`                          | Toggle fullscreen                                |
+| `kitty --debug-config`               | Effective config + live keymap                   |
+| `kitten @ ls`                        | Pane/tab tree                                    |
+| `kitty +kitten show_key`             | Inspect raw keypress                             |

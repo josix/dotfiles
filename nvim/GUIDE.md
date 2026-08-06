@@ -261,6 +261,13 @@ If any of the in-explorer keys above ever feel off after a plugin update,
 confirm with `<leader>sk` while the explorer is focused — that always reflects
 the live binding.
 
+**Copy the current file's path**: `<leader>cp` copies the absolute path of
+the file in the current buffer to the system clipboard and shows it in a
+notification (custom mapping, `nvim/lua/config/keymaps.lua`). VSCode
+equivalent: "Copy Path" in the tab context menu. For other flavors on the
+fly, use `:let @+ = expand('%')` (relative) or `expand('%:t')` (filename
+only).
+
 ---
 
 ## 5. Moving inside a file
@@ -1051,6 +1058,7 @@ the new versions, since it's what pins exact commits for reproducibility.
 | `<leader>/` | Grep project |
 | `<leader>sk` | Search all keymaps |
 | `<leader>e` / `<leader>E` | Explorer (root / cwd) |
+| `<leader>cp` | Copy file's absolute path to clipboard |
 | `s` / `S` | Flash jump / Flash treesitter jump |
 | `m{a}` / `` `{a} `` | Set / jump to mark (uppercase = cross-file) |
 | `<c-o>` / `<c-i>` | Jump back / forward (jumplist) |

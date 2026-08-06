@@ -39,6 +39,9 @@ brew "helm"
 tap "derailed/k9s"
 brew "k9s"
 
+# Diagramming
+brew "mermaid-cli"
+
 # Prompt theme
 tap "romkatv/powerlevel10k"
 brew "powerlevel10k"
