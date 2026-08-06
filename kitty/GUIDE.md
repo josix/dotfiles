@@ -371,6 +371,7 @@ already applied.
 | `ctrl+a>a` | Same as above | 3379 |
 | `cmd+f` | Send the literal text `fg\r` — resumes a suspended job | 3383 |
 | `cmd+shift+f` | Send `\x18j` (Ctrl-X j) — fires the fzf job picker | 3387 |
+| `cmd+/` | `search_scrollback` — open scrollback in the pager, search with `/` | 3400 |
 | `cmd+enter` | Toggle fullscreen | 3471 |
 
 The `Cmd+Shift+F` picker isn't a kitty feature — it's a zsh ZLE widget,
@@ -645,6 +646,7 @@ down.
 | `cmd+shift+c` / `ctrl+a>a` | Launch Claude Code |
 | `cmd+f` | Resume suspended job |
 | `cmd+shift+f` | Job picker |
+| `cmd+/` | Search scrollback in pager |
 | `cmd+enter` | Toggle fullscreen |
 | `kitty --debug-config` | Effective config + live keymap |
 | `kitten @ ls` | Pane/tab tree |
