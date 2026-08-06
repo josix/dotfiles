@@ -5,6 +5,9 @@
 -- Absolute line numbers only (LazyVim enables relativenumber by default)
 vim.opt.relativenumber = false
 
+-- Disable all snacks.nvim animations (smooth scroll, resize, etc.)
+vim.g.snacks_animate = false
+
 -- Show whitespace (ported from VSCode editor.renderWhitespace)
 vim.opt.list = true
 vim.opt.listchars = { tab = "→ ", trail = "·", nbsp = "␣" }

@@ -490,6 +490,20 @@ Source: `lazyvim/plugins/lsp/init.lua:78-113` (core keys), plus
 `snacks_picker.lua:147-150` when the picker extra is active (so they open a
 list instead of jumping directly when there's more than one candidate).
 
+### Listing all functions in a file — symbols
+
+"Show me every function/class in this file" is a symbols query:
+
+| Key | Action | VSCode equivalent |
+|---|---|---|
+| `<leader>ss` | Fuzzy-pick LSP symbols in current file (functions, methods, classes) | `Cmd+Shift+O` |
+| `<leader>sS` | Same, but across the whole workspace | `Cmd+T` |
+| `<leader>cs` | Symbols outline sidebar (Trouble) — persistent tree that follows your cursor | Outline view |
+
+All three need an LSP attached to the buffer (`<leader>cl` to check). If
+nothing is attached, add the language extra for that filetype (ch. 12) —
+that's what wires up the server.
+
 ### Diagnostics (inline errors/warnings)
 
 | Key | Action | VSCode equivalent |
