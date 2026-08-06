@@ -904,19 +904,12 @@ the new versions, since it's what pins exact commits for reproducibility.
 | A keymap doesn't do what this guide says | `<leader>sk`, search for the key — the live binding always wins over documentation |
 | Neovim itself feels broken/slow | `:Lazy profile` for startup timing |
 
-> **Gotcha: kitty's `ctrl+a>v` "Dev" tab does NOT open this Neovim config.**
-> Your `kitty.conf:3372` `ctrl+a>v` binding runs `exec vim .` inside a
-> `zsh -lc` shell — a login shell, but explicitly **non-interactive**. `zshrc`
-> does have `alias vim='nvim'` (`zshrc:156`), but `.zshrc` is only sourced by
-> **interactive** shells, so that alias never loads in this launcher. The
-> `vim` command it runs resolves to plain `/usr/bin/vim` (the old
-> Vundle-based vimrc), **not** `nvim` and not this LazyVim config.
-> **Fix (pick one):**
-> 1. Change `kitty.conf:3372` from `exec vim .` to `exec nvim .`, or
-> 2. Change that step's `zsh -lc` to `zsh -lic` (interactive) so the existing
->    `zshrc:156` alias applies — this is the same fix already used for the
->    Claude Code launches elsewhere in `kitty.conf` (3372's own last step,
->    3378, 3379), which all use `-lic` for exactly this reason.
+> **Note: kitty's `ctrl+a>v` "Dev" tab opens this Neovim config.**
+> The `kitty.conf:3372` binding runs `exec nvim .` explicitly. It must stay
+> `nvim`, not `vim`: the launcher's shell is `zsh -lc` — login but
+> **non-interactive** — so `.zshrc` (and its `alias vim='nvim'` at
+> `zshrc:156`) never loads there, and a bare `vim` would resolve to plain
+> `/usr/bin/vim` with the old Vundle-based vimrc.
 
 ### Condensed cheat sheet
 

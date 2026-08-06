@@ -320,23 +320,18 @@ tab from a spawned shell.
 
 Both launchers use kitty's `combine` action, which is kitty's way of running
 several actions as one keypress — each step after a `:` runs in sequence
-against the state left by the previous step. That's why `neighboring_window
-up` (step 3 of the Dev tab) matters: after step 2's `hsplit` creates a new
-pane below and steals focus, step 3 moves focus back up before step 4 splits
-*that* pane vertically for Claude — without it, the Claude pane would end up
-splitting the bottom shell instead of the top editor pane.
+against the state left by the previous step.
 
 ### `ctrl+a>v` (3372) — the Dev tab
 
-This is a single `combine` chain of four steps:
+This is a single `combine` chain of two steps:
 
 1. **New tab**, `cwd=current`, running
-   `/opt/homebrew/bin/zsh -lc 'kitten @ set-tab-title "$(basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")"; exec vim .'`
+   `/opt/homebrew/bin/zsh -lc 'kitten @ set-tab-title "$(basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")"; exec nvim .'`
    — it renames the tab to the git repo's top-level directory name (or the
-   plain cwd if not in a repo), then `exec vim .`.
-2. **hsplit**, `bias=30`, bottom shell, `cwd=current`.
-3. `neighboring_window up` — move focus back to the top pane.
-4. **vsplit**, `cwd=current`, running `/opt/homebrew/bin/zsh -lic claude`.
+   plain cwd if not in a repo), then `exec nvim .`.
+2. **hsplit**, `bias=30`, `cwd=current` — a full-width shell taking the
+   bottom 30%.
 
 ### `ctrl+a>shift+l` (3374) — the Logs tab
 
@@ -349,19 +344,15 @@ equivalent to Gotcha 1 to worry about; every pane it opens is a normal
 interactive `zsh` session with your full `.zshrc` (aliases, PATH, prompt)
 already applied.
 
-> **Gotcha 1: `ctrl+a>v` opens the WRONG vim.**
+> **Gotcha 1: step 1 must say `exec nvim .`, not `exec vim .`.**
 > Step 1's shell command runs under `zsh -lc` — a **login** shell (sources
 > `.zprofile`) but explicitly **non-interactive** (`-c`, not `-i`), so
-> `.zshrc` is never sourced. `alias vim='nvim'` lives at `zshrc:156`, but
-> aliases defined in `.zshrc` only apply to interactive shells — this one
-> isn't one. So `exec vim .` resolves to the plain `/usr/bin/vim` binary with
-> your old Vundle-based `~/.vimrc`, not your LazyVim Neovim config.
-> Contrast: the Claude Code launches at 3372 (step 4), 3378, and 3379 all use
+> `.zshrc` is never sourced and the `alias vim='nvim'` at `zshrc:156` never
+> applies. A bare `vim` here would resolve to plain `/usr/bin/vim` with the
+> old Vundle-based `~/.vimrc` — which is why the binding calls `nvim`
+> explicitly. Contrast: the Claude Code launches at 3378 and 3379 use
 > `zsh -lic` — the `i` makes them **interactive**, so `.zshrc` (and its
 > aliases/PATH setup) does apply there.
-> **Fix (pick one):** change kitty.conf:3372's `exec vim .` to
-> `exec nvim .`, or change that step's `zsh -lc` to `zsh -lic` so the
-> existing `zshrc:156` alias applies.
 
 > **Gotcha 8: `kitten @` only works from kitty-spawned processes.**
 > Remote control here works over an environment-inherited control channel
@@ -598,10 +589,10 @@ down.
 | Need to inspect the live pane/tab tree | `kitten @ ls` |
 | Not sure which flag inspects raw input | Prefer `kitty --debug-config` and `kitty +kitten show_key` over guessing at flag names — let their live output be the tiebreaker over anything documentation (including this guide) claims |
 
-> **Gotcha: `ctrl+a>v` opens the wrong vim.** See chapter 7, Gotcha 1 in
-> full — short version: the Dev-tab launcher runs a non-interactive
-> `zsh -lc`, so `.zshrc`'s `alias vim='nvim'` (zshrc:156) never loads, and
-> `exec vim .` opens the old Vundle vimrc instead of your LazyVim config.
+> **Gotcha: the Dev-tab launcher never sees `.zshrc` aliases.** See chapter
+> 7, Gotcha 1 in full — short version: it runs a non-interactive `zsh -lc`,
+> so `.zshrc`'s `alias vim='nvim'` (zshrc:156) never loads; the binding must
+> call `exec nvim .` explicitly (and does).
 
 > **Gotcha: missing `current-theme.conf` breaks bootstrap on a new machine.**
 > See chapter 9, Gotcha 3 — the theme file only exists on this machine's
@@ -649,7 +640,7 @@ down.
 | `ctrl+a>/` | Hint-insert a path at prompt |
 | `ctrl+a>u` | Hint-open a URL |
 | `ctrl+a>b` | Broadcast to all panes in tab |
-| `ctrl+a>v` | Dev tab (vim/claude/shell) — see Gotcha |
+| `ctrl+a>v` | Dev tab (nvim on top, shell below) |
 | `ctrl+a>shift+l` | Logs tab (4-shell grid) |
 | `cmd+shift+c` / `ctrl+a>a` | Launch Claude Code |
 | `cmd+f` | Resume suspended job |

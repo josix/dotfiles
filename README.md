@@ -93,8 +93,6 @@ Orientation:
 - `cmd+f` sends `fg` to resume a suspended job; `cmd+b` sends `bg` to resume it in the background after Ctrl-Z; `cmd+shift+f` opens the zsh fzf job picker (also bound to Ctrl-X j) — Enter=fg, Ctrl-B=bg, Ctrl-K=kill.
 - Inside kitty, `ssh` is aliased to `kitten ssh`.
 
-Known quirk: `ctrl+a>v` currently opens legacy vim, not nvim — see [kitty/GUIDE.md](kitty/GUIDE.md) Gotcha 1.
-
 Full walkthrough: [kitty/GUIDE.md](kitty/GUIDE.md).
 
 # for tmux
