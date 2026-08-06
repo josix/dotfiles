@@ -239,7 +239,8 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Background-job picker (like an nvim buffer list): fzf over `jobs -l` with a
-# live ps preview (state/CPU/elapsed), Enter = fg, Ctrl-K = kill.
+# live ps preview (state/CPU/elapsed), Enter = fg, Ctrl-K = kill,
+# Ctrl-B = resume a Ctrl-Z-suspended job in the background (bg).
 # Bound to Ctrl-X j; kitty's Cmd+Shift+F sends the same sequence.
 fzf-job-picker() {
   local jl out key sel jobnum
@@ -249,7 +250,7 @@ fzf-job-picker() {
     return
   fi
   out=$(print -r -- "$jl" | fzf --height=~40% --reverse --prompt='job> ' \
-        --header='enter: fg | ctrl-k: kill' --expect=ctrl-k \
+        --header='enter: fg | ctrl-b: bg | ctrl-k: kill' --expect=ctrl-k,ctrl-b \
         --preview 'pid=$(grep -oE "[0-9]{2,}" <<< {} | head -1); ps -o pid,stat,%cpu,%mem,etime,command -p "$pid"' \
         --preview-window=down,3)
   key=${out%%$'\n'*}
@@ -262,6 +263,9 @@ fzf-job-picker() {
   if [[ $key == ctrl-k ]]; then
     kill "%$jobnum" 2>/dev/null
     zle reset-prompt
+  elif [[ $key == ctrl-b ]]; then
+    BUFFER="bg %$jobnum"
+    zle accept-line
   else
     BUFFER="fg %$jobnum"
     zle accept-line
