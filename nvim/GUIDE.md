@@ -169,6 +169,7 @@ here (not Telescope — this config never installed it). Every "find X" and
 | `<leader>,` | Switch buffers (picker) | `Cmd+P` then recent files |
 | `<leader>fb` | Buffers | — |
 | `<leader>fr` | Recent files | `Cmd+R` |
+| `<leader>fR` | Recent files (cwd only) | `Cmd+R` (folder-scoped) |
 | `<leader>fg` | Git files | — |
 | `<leader>:` | Command history | `Cmd+Shift+P` history |
 | `<leader>sk` | **Keymaps** — search every active binding | Keyboard Shortcuts search |
@@ -346,6 +347,15 @@ Related: the **jumplist** tracks everywhere you've jumped (searches, `gg`/`G`,
 `gd`, marks…) — `<c-o>` goes back, `<c-i>` goes forward, like VSCode's
 "Go Back / Go Forward" (`Ctrl+-` / `Ctrl+Shift+-`). Browse it with
 `<leader>sj` (jumps picker).
+
+Also related, for getting back to **recently edited files**:
+
+| Key / command | Action |
+|---|---|
+| `` `0 `` … `` `9 `` | Jump to your exact cursor position in the last 10 files you exited (`` `0 `` = most recent) |
+| `g;` / `g,` | Jump back / forward through the **changelist** — the spots you last edited in this buffer |
+| `:oldfiles` | Raw list of recently edited files (what `<leader>fr` is built on) |
+| `:browse oldfiles` | Same list, then type a number to open one |
 
 Practical pattern: `mA` in a file you keep returning to (global, survives
 switching files), `` `A `` to snap back. For quick within-screen jumps prefer
