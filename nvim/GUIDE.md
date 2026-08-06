@@ -548,6 +548,33 @@ installed via Homebrew.
 
 Source: `lazyvim/config/keymaps.lua:173-180`.
 
+### Git pickers — fuzzy-find changes and files
+
+These come from the snacks picker (your active picker), not gitsigns:
+
+| Key | Action |
+|---|---|
+| `<leader>gd` | Picker over all changed hunks in the repo, with diff preview |
+| `<leader>gD` | Same, but diffed against `origin` and grouped by file |
+| `<leader>gs` | Git status — pick among modified/untracked files |
+| `<leader>gS` | Git stash — browse and apply stashes |
+
+Source: `lazyvim/plugins/extras/editor/snacks_picker.lua:75-78`.
+
+### A review-then-commit workflow
+
+1. `]h` to hop between changes in the current file; `<leader>ghp` to peek at
+   each diff inline (or `<leader>gd` to sweep every hunk repo-wide).
+2. Stage the good hunks with `<leader>ghs`, discard mistakes with
+   `<leader>ghr`. Both work on a **visual selection** too, so you can stage
+   just part of a hunk — select the lines first, then the keymap.
+3. `<leader>gg` for lazygit to write the commit.
+
+### Not installed (but worth knowing)
+
+For reviewing many files side-by-side (e.g. a whole PR), the usual addition
+is `diffview.nvim` — nothing built-in gives a multi-file diff view.
+
 ### What `lang.git` actually adds
 
 The `git` language extra you have enabled (`extras/lang/git.lua`) only adds
