@@ -42,3 +42,6 @@ brew "k9s"
 # Prompt theme
 tap "romkatv/powerlevel10k"
 brew "powerlevel10k"
+
+# Fonts (Nerd Fonts v3 — needed for nvim devicons glyphs in kitty)
+cask "font-fira-code-nerd-font"
