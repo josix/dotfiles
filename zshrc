@@ -237,6 +237,38 @@ fi
 # fzf settingj
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Background-job picker (like an nvim buffer list): fzf over `jobs -l` with a
+# live ps preview (state/CPU/elapsed), Enter = fg, Ctrl-K = kill.
+# Bound to Ctrl-X j; kitty's Cmd+Shift+F sends the same sequence.
+fzf-job-picker() {
+  local jl out key sel jobnum
+  jl=$(builtin jobs -l)
+  if [[ -z $jl ]]; then
+    zle -M "no background jobs"
+    return
+  fi
+  out=$(print -r -- "$jl" | fzf --height=~40% --reverse --prompt='job> ' \
+        --header='enter: fg | ctrl-k: kill' --expect=ctrl-k \
+        --preview 'pid=$(grep -oE "[0-9]{2,}" <<< {} | head -1); ps -o pid,stat,%cpu,%mem,etime,command -p "$pid"' \
+        --preview-window=down,3)
+  key=${out%%$'\n'*}
+  sel=${out#*$'\n'}
+  if [[ -z $sel || $sel != \[* ]]; then
+    zle reset-prompt
+    return
+  fi
+  jobnum=${${sel#\[}%%\]*}
+  if [[ $key == ctrl-k ]]; then
+    kill "%$jobnum" 2>/dev/null
+    zle reset-prompt
+  else
+    BUFFER="fg %$jobnum"
+    zle accept-line
+  fi
+}
+zle -N fzf-job-picker
+bindkey '^Xj' fzf-job-picker
+
 # export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/qemu/podman.sock"
 
 

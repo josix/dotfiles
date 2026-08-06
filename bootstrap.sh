@@ -56,6 +56,9 @@ link "$DOTFILES_DIR/claude.zsh"  "$HOME/.claude.zsh"
 mkdir -p "$HOME/.config"
 link "$DOTFILES_DIR/nvim"        "$HOME/.config/nvim"
 
+mkdir -p "$HOME/.config/kitty"
+link "$DOTFILES_DIR/kitty.conf"  "$HOME/.config/kitty/kitty.conf"
+
 # 6. Next steps
 cat <<EOF
 
