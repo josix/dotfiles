@@ -92,6 +92,7 @@ operation.
 | `<S-l>` | Next buffer | `Cmd+Shift+]` (next tab) |
 | `[b` / `]b` | Previous / next buffer | prev/next tab |
 | `<leader>bd` | Delete (close) buffer, keeps window layout | `Cmd+W` (close tab) |
+| `<leader>bD` | Delete buffer **and discard unsaved changes** (force) | `Cmd+W`, "Don't Save" |
 | `<leader>bo` | Delete all other buffers | "Close Other Tabs" |
 | `<leader>bb` | Switch to alternate (last) buffer | `Cmd+backtick` |
 | `<leader>bp` | Toggle pin buffer in bufferline | Pin tab |
@@ -101,6 +102,22 @@ operation.
 | `<c-w>v` (`<leader>\|`) | Split window right | Split editor right |
 | `<leader>wd` | Close current window | Close split pane |
 | `<leader>wm` | Zoom/maximize current window (toggle) | Maximize editor group |
+
+**Closing buffers from the command line** — the plain Vim commands work too,
+and it's worth knowing the `:q` distinction: `:q` closes the *window*; the
+buffer stays loaded in the background (still in the bufferline). `:bd` is
+what actually removes a buffer from the buffer list.
+
+| Command | Action |
+|---|---|
+| `:bd` (`:bdelete`) | Close current buffer; fails if it has unsaved changes |
+| `:bd!` | Close and discard unsaved changes |
+| `:bd 3` / `:bd name` | Close a specific buffer by number or name |
+| `:%bd` | Close all buffers |
+
+Prefer `<leader>bd` over raw `:bd` when a file is visible in a split — it
+uses snacks' bufdelete, which closes the buffer *without* collapsing your
+window layout, while raw `:bd` also closes any window showing that buffer.
 
 Sources: buffer navigation from LazyVim core `keymaps.lua:34-49` and
 `bufferline.nvim` keys in `ui.lua:7-19` (both bind `<S-h>/<S-l>/[b/]b` — the
