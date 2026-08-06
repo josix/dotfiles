@@ -153,6 +153,7 @@ fi
 alias gii='git init && git commit --allow-empty -m "startup"'
 alias gunch='git update-index --assume-unchanged'
 alias gnunch='git update-index --no-assume-unchanged'
+alias vim='nvim'
 
 # pyenv — cache init script instead of running `pyenv init -` every startup (~300ms)
 if command -v pyenv 1>/dev/null 2>&1; then
