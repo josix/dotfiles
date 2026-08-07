@@ -508,7 +508,7 @@ list instead of jumping directly when there's more than one candidate).
 |---|---|---|
 | `<leader>ss` | Fuzzy-pick LSP symbols in current file (functions, methods, classes) | `Cmd+Shift+O` |
 | `<leader>sS` | Same, but across the whole workspace | `Cmd+T` |
-| `<leader>cs` | Symbols outline sidebar (Trouble) — persistent tree that follows your cursor | Outline view |
+| `<leader>cs` | Symbols outline sidebar (Trouble) — persistent tree that follows your cursor. Widened to 50 columns here (`plugins/trouble.lua`) | Outline view |
 
 All three need an LSP attached to the buffer (`<leader>cl` to check). If
 nothing is attached, add the language extra for that filetype (ch. 12) —
@@ -914,8 +914,8 @@ LazyVim defaults you accepted) and is live right now.
 
 ## 13. What's already customized
 
-Exactly five things differ from stock LazyVim in this config. Everything
-else you've read above is the LazyVim default — if you reset these five,
+Exactly six things differ from stock LazyVim in this config. Everything
+else you've read above is the LazyVim default — if you reset these six,
 you'd have a stock LazyVim install (plus your 18 chosen extras).
 
 1. **`jj` → Escape in insert mode**
@@ -947,6 +947,11 @@ you'd have a stock LazyVim install (plus your 18 chosen extras).
    `nvim/lua/plugins/claudecode.lua` — connects nvim to the Claude Code CLI
    over the IDE protocol so Claude can see your diagnostics; `<leader>ac`
    to toggle (see ch. 8). Delete the file to remove it.
+
+6. **Trouble symbols outline — wider panel**
+   `nvim/lua/plugins/trouble.lua` — the `<leader>cs` symbols sidebar is
+   50 columns wide instead of the stock 30%-of-screen split. Change the
+   `width` number there to taste; delete the file for stock behavior.
 
 ---
 
