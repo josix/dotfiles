@@ -651,6 +651,13 @@ Three complementary layers: inline hunk signs/actions (gitsigns), a full TUI
 
 Source: `lazyvim/plugins/editor.lua:159-201`.
 
+> **Custom: current-line blame is on by default.** Rest the cursor on a line
+> for half a second and faded virtual text shows who last touched it, when,
+> and the commit summary (`josix, 2026-08-05 - feat(kitty): ...`) — GitLens
+> style. Uncommitted lines show as `You, (uncommitted)`. `<leader>uB`
+> toggles it; config in `plugins/gitsigns.lua`. For more detail use
+> `<leader>ghb` (full blame popup) or `<leader>ghB` (blame whole buffer).
+
 ### lazygit — full terminal git client
 
 | Key | Action | VSCode equivalent |
@@ -814,6 +821,7 @@ Almost every visual/behavioral toggle in this config lives under
 | `<leader>uS` | Smooth scroll |
 | `<leader>uh` | Inlay hints (if your LSP supports them) |
 | `<leader>uG` | Git signs in gutter (ch. 9) |
+| `<leader>uB` | Current-line git blame virtual text — **on by default** here (`plugins/gitsigns.lua`, ch. 9) |
 | `<leader>um` | Render-markdown display (ch. 12) |
 
 ### Minimap — mini.map
@@ -921,8 +929,8 @@ LazyVim defaults you accepted) and is live right now.
 
 ## 13. What's already customized
 
-Exactly seven things differ from stock LazyVim in this config. Everything
-else you've read above is the LazyVim default — if you reset these seven,
+Exactly eight things differ from stock LazyVim in this config. Everything
+else you've read above is the LazyVim default — if you reset these eight,
 you'd have a stock LazyVim install (plus your 18 chosen extras).
 
 1. **`jj` → Escape in insert mode**
@@ -974,6 +982,12 @@ you'd have a stock LazyVim install (plus your 18 chosen extras).
    move functions so `]f`/`[c`-style motions center even on short hops
    (see the callout in ch. 5). Tune the `> 5` threshold, or delete both
    for stock behavior.
+
+8. **Inline git blame for the current line**
+   `nvim/lua/plugins/gitsigns.lua` — gitsigns' `current_line_blame` is
+   enabled with a 500ms delay and an `author, date - summary` format
+   (see the callout in ch. 9). `<leader>uB` toggles it (`ub` was taken by
+   the dark-background toggle); delete the file for stock behavior.
 
 ---
 
