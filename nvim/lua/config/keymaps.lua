@@ -10,6 +10,11 @@ vim.keymap.set("i", "jj", "<Esc>", { desc = "Exit insert mode" })
 -- which interrupts Claude Code — so use a key no terminal app wants.
 vim.keymap.set("t", "<C-]>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
+-- kitty's macos_option_as_alt sends Option+Delete as Alt+Backspace, which
+-- nvim ignores by default — make it delete a word like everywhere else on mac
+vim.keymap.set("i", "<M-BS>", "<C-w>", { desc = "Delete word backward" })
+vim.keymap.set("c", "<M-BS>", "<C-w>", { desc = "Delete word backward" })
+
 -- Copy the current file's absolute path to the system clipboard
 vim.keymap.set("n", "<leader>cp", function()
   local path = vim.fn.expand("%:p")
