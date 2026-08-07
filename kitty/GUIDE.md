@@ -329,8 +329,9 @@ This is a single `combine` chain of two steps:
    `/opt/homebrew/bin/zsh -lc 'kitten @ set-tab-title "$(basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")"; exec nvim .'`
    — it renames the tab to the git repo's top-level directory name (or the
    plain cwd if not in a repo), then `exec nvim .`.
-2. **hsplit**, `bias=30`, `cwd=current` — a full-width shell taking the
-   bottom 30%.
+2. **hsplit**, `bias=30`, `cwd=current`, `--keep-focus` — a full-width
+   shell taking the bottom 30%; `--keep-focus` leaves the cursor in the
+   nvim pane on top instead of following the new shell.
 
 ### `ctrl+a>shift+l` (3374) — the Logs tab
 
