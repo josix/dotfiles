@@ -801,7 +801,7 @@ Almost every visual/behavioral toggle in this config lives under
 | `<leader>uA` | Tabline visibility |
 | `<leader>uT` | Treesitter highlighting |
 | `<leader>ub` | Dark/light background |
-| `<leader>uD` | Dim inactive code |
+| `<leader>uD` | Dim code outside the current scope — the lit region follows the cursor between functions/blocks (treesitter-aware); lighter-weight alternative to zen mode |
 | `<leader>ua` | Animations |
 | `<leader>ug` | Indent guides |
 | `<leader>uS` | Smooth scroll |
@@ -1108,6 +1108,7 @@ the new versions, since it's what pins exact commits for reproducibility.
 | `<leader>qs` / `<leader>ql` | Restore session (cwd / last) |
 | `<leader>.` | Scratch buffer |
 | `<leader>uz` | Zen mode |
+| `<leader>uD` | Dim code outside the current scope |
 | `<leader>mm` | Toggle minimap |
 | `<leader>mp` | Toggle markdown browser preview (markdown buffers) |
 | `<leader>n` | Notification history |
