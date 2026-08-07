@@ -861,7 +861,7 @@ LazyVim defaults you accepted) and is live right now.
 | `lang.go` | `gopls` | `goimports`, `gofumpt` | — |
 | `lang.helm` | `helm_ls` | — | — |
 | `lang.json` | `jsonls` (+ SchemaStore) | — | — |
-| `lang.markdown` | `marksman` | `prettier`, `markdownlint-cli2`, `markdown-toc` | `<leader>cp` preview toggle, `<leader>um` toggle render |
+| `lang.markdown` | `marksman` | `prettier`, `markdownlint-cli2`, `markdown-toc` | `<leader>mp` preview toggle (remapped from `<leader>cp`), `<leader>um` toggle render |
 | `lang.python` | `pyright` (+ `ruff` for lint/format actions) | `ruff` (via LSP) | `<leader>cv` select virtualenv |
 | `lang.rust` | `rust-analyzer` (via rustaceanvim) | `rust-analyzer` (via LSP) | `<leader>cR` code action, `<leader>dr` debuggables |
 | `lang.svelte` | `svelte`, `vtsls` | `prettier` | — |
@@ -886,8 +886,11 @@ LazyVim defaults you accepted) and is live right now.
 - **markdown**: three tools cooperate — `render-markdown.nvim` draws
   headings/checkboxes/code blocks inline as you edit (toggle with
   `<leader>um`), `markdown-preview.nvim` opens a live browser preview
-  (`<leader>cp`), and `glow` (installed separately) gives you a
-  terminal-based preview instead when you don't want a browser tab.
+  (`<leader>mp` — remapped from the extra's default `<leader>cp`, which
+  shadowed the global path-copy keymap in markdown buffers; see
+  `nvim/lua/plugins/markdown-preview.lua`), and `glow` (installed
+  separately) gives you a terminal-based preview instead when you don't
+  want a browser tab.
 - **clangd**: `<leader>ch` switches between a C/C++ source file and its
   header — a command that doesn't exist for any other language here
   (`extras/lang/clangd.lua:61-62`).
@@ -1105,6 +1108,7 @@ the new versions, since it's what pins exact commits for reproducibility.
 | `<leader>.` | Scratch buffer |
 | `<leader>uz` | Zen mode |
 | `<leader>mm` | Toggle minimap |
+| `<leader>mp` | Toggle markdown browser preview (markdown buffers) |
 | `<leader>n` | Notification history |
 | `<leader>?` | Which-key: buffer keymaps |
 | `:checkhealth` / `:Lazy` / `:Mason` / `:LazyExtras` | Health / plugins / LSP-tools / language extras |
