@@ -814,15 +814,16 @@ Almost every visual/behavioral toggle in this config lives under
 A VSCode-style minimap on the right edge, from **mini.map**
 (`nvim/lua/plugins/minimap.lua`). It renders the buffer as dot characters
 (12 columns wide, slightly transparent) and overlays search matches,
-diagnostics, and git changes. It opens automatically on startup.
+diagnostics, and git changes. It stays hidden until you toggle it on with
+`<leader>mm`.
 
 | Key | Action | VSCode equivalent |
 |---|---|---|
 | `<leader>mm` | Toggle minimap | "Toggle Minimap" |
 | `<leader>mf` | Move focus into the minimap (scroll with `j`/`k`, `Esc`/`Enter` to return) | click in minimap |
 
-To change width or disable auto-open, edit `window.width` or remove the
-`map.open()` line in `minimap.lua`.
+To change the width, edit `window.width` in `minimap.lua`; to bring back
+auto-open on startup, add a `map.open()` call at the end of its `config`.
 
 ### Discovery tools — how to keep learning this config without a guide
 
@@ -939,7 +940,7 @@ you'd have a stock LazyVim install (plus your 18 chosen extras).
 
 4. **Minimap — mini.map**
    `nvim/lua/plugins/minimap.lua` — VSCode-style minimap on the right edge,
-   auto-opens on startup, `<leader>mm` to toggle (see ch. 11). Delete the
+   hidden by default, `<leader>mm` to toggle (see ch. 11). Delete the
    file to remove it.
 
 5. **Claude Code integration — claudecode.nvim**

@@ -24,7 +24,6 @@ return {
           show_integration_count = false,
         },
       })
-      map.open()
     end,
   },
 }
