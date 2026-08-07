@@ -323,6 +323,13 @@ lines feels natural. Source: LazyVim core, `keymaps.lua:8-11`.
 editor — 90% of long-distance jumps within a visible screen should use Flash
 instead of repeated `w`/`j`.
 
+> **Custom: jumps auto-center.** Any motion that moves the cursor more than
+> 5 lines (`}`/`{`, `n`/`N`, `gg`/`G`, Flash, `<C-o>`/`<C-i>`, ...) lands
+> with the line centered (`zz`), via a `CursorMoved` autocmd in
+> `config/autocmds.lua`. The treesitter motions (`]f`, `]c`, ...) center on
+> every jump, even short ones (`plugins/treesitter-center.lua`). Small
+> movements like `j`/`k` are untouched.
+
 ### Marks — named bookmarks
 
 Marks are Vim-native bookmarks (no plugin involved): `m` + a letter sets one,
@@ -914,8 +921,8 @@ LazyVim defaults you accepted) and is live right now.
 
 ## 13. What's already customized
 
-Exactly six things differ from stock LazyVim in this config. Everything
-else you've read above is the LazyVim default — if you reset these six,
+Exactly seven things differ from stock LazyVim in this config. Everything
+else you've read above is the LazyVim default — if you reset these seven,
 you'd have a stock LazyVim install (plus your 18 chosen extras).
 
 1. **`jj` → Escape in insert mode**
@@ -957,6 +964,16 @@ you'd have a stock LazyVim install (plus your 18 chosen extras).
    no `documentSymbol` provider is attached yet — which also means LSP-less
    buffers (plain text, dashboards) never pop an empty panel. `<leader>cs`
    still toggles it; delete the file for stock behavior.
+
+7. **Auto-center after jumps**
+   `nvim/lua/config/autocmds.lua` (`auto_center_jumps` augroup) — any
+   normal-mode motion that moves the cursor more than 5 lines recenters
+   the view with `zz`; covers `}`/`{`, `n`/`N`, `gg`/`G`, Flash, jumplist,
+   and any plugin navigation, while leaving `j`/`k` alone. Paired with
+   `nvim/lua/plugins/treesitter-center.lua`, which wraps the treesitter
+   move functions so `]f`/`[c`-style motions center even on short hops
+   (see the callout in ch. 5). Tune the `> 5` threshold, or delete both
+   for stock behavior.
 
 ---
 
