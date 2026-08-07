@@ -622,6 +622,7 @@ down.
 | `ctrl+a>t/f/g/s`                     | Tall / Fat / Grid / Splits layout                |
 | `ctrl+a>space`                       | Next layout                                      |
 | `ctrl+a>z`                           | Toggle zoom (stack)                              |
+| `cmd+j`                              | Toggle lower pane(s); cursor follows — lower when revealed, top when hidden (`kitty/toggle-stack.py`) |
 | `ctrl+a>r`                           | Interactive resize                               |
 | `ctrl+a>equal`                       | Reset pane sizes                                 |
 | `cmd+arrows`                         | Resize one step                                  |
