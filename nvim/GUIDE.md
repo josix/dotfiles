@@ -508,7 +508,7 @@ list instead of jumping directly when there's more than one candidate).
 |---|---|---|
 | `<leader>ss` | Fuzzy-pick LSP symbols in current file (functions, methods, classes) | `Cmd+Shift+O` |
 | `<leader>sS` | Same, but across the whole workspace | `Cmd+T` |
-| `<leader>cs` | Symbols outline sidebar (Trouble) — persistent tree that follows your cursor. Widened to 50 columns here (`plugins/trouble.lua`) | Outline view |
+| `<leader>cs` | Symbols outline sidebar (Trouble) — persistent tree that follows your cursor. Widened to 50 columns and auto-opens on LSP attach here (`plugins/trouble.lua`) | Outline view |
 
 All three need an LSP attached to the buffer (`<leader>cl` to check). If
 nothing is attached, add the language extra for that filetype (ch. 12) —
@@ -948,10 +948,15 @@ you'd have a stock LazyVim install (plus your 18 chosen extras).
    over the IDE protocol so Claude can see your diagnostics; `<leader>ac`
    to toggle (see ch. 8). Delete the file to remove it.
 
-6. **Trouble symbols outline — wider panel**
+6. **Trouble symbols outline — wider and auto-opens**
    `nvim/lua/plugins/trouble.lua` — the `<leader>cs` symbols sidebar is
-   50 columns wide instead of the stock 30%-of-screen split. Change the
-   `width` number there to taste; delete the file for stock behavior.
+   50 columns wide instead of the stock 30%-of-screen split, and it opens
+   itself (unfocused) the first time a symbol-capable LSP attaches, so you
+   get the outline just by opening a code file. It hooks `LspAttach` rather
+   than startup because Trouble's symbols mode silently does nothing when
+   no `documentSymbol` provider is attached yet — which also means LSP-less
+   buffers (plain text, dashboards) never pop an empty panel. `<leader>cs`
+   still toggles it; delete the file for stock behavior.
 
 ---
 
