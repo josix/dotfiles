@@ -8,7 +8,7 @@ cd ~/dotfiles
 ./bootstrap.sh
 ```
 
-`bootstrap.sh` will install Homebrew (if missing), run `brew bundle`, install oh-my-zsh and Vundle, then symlink `zshrc`, `vimrc`, `gitconfig`, `tmux.conf`, `p10k.zsh`, and `claude.zsh` into `$HOME`, plus `nvim/` into `~/.config/nvim` and `kitty.conf` into `~/.config/kitty/kitty.conf` (with timestamped backups of any pre-existing files).
+`bootstrap.sh` will install Homebrew (if missing), run `brew bundle`, install oh-my-zsh and Vundle, then symlink `zshrc`, `vimrc`, `gitconfig`, `tmux.conf`, `p10k.zsh`, and `claude.zsh` into `$HOME`, plus `nvim/` into `~/.config/nvim`, and `kitty.conf` and `kitty/dark-theme.auto.conf` into `~/.config/kitty/` (with timestamped backups of any pre-existing files).
 
 After running bootstrap:
 
@@ -36,6 +36,7 @@ brew bundle dump --describe --force --file=Brewfile
 | `claude.zsh` | `~/.claude.zsh` | multi-profile Claude Code shim |
 | `nvim/` | `~/.config/nvim` | |
 | `kitty.conf` | `~/.config/kitty/kitty.conf` | |
+| `kitty/dark-theme.auto.conf` | `~/.config/kitty/dark-theme.auto.conf` | dark-mode palette (brightened Zenburn red) |
 | `MyProfile.json` | not linked | reference only, not linked by bootstrap |
 | `MyIterm2Color.itermcolors` | not linked | reference only, not linked by bootstrap |
 | `Raycast.rayconfig` | not linked | reference only, not linked by bootstrap |
@@ -72,6 +73,7 @@ LazyVim starter config, lives in `nvim/`, symlinked to `~/.config/nvim` by `boot
 - Colorscheme: zenburn (`nvim/lua/plugins/colorscheme.lua`).
 - Minimap: `<leader>mm` toggles, `<leader>mf` focuses (`nvim/lua/plugins/minimap.lua`).
 - `jj` exits insert mode (`nvim/lua/config/keymaps.lua`).
+- Focus Mode (centered cursor + scope dim) is on by default; `<leader>uo` toggles it. Tab/Shift-Tab cycle completion suggestions (`nvim/lua/plugins/blink.lua`).
 - Whitespace rendering and an nvm node PATH shim for Mason (`nvim/lua/config/options.lua`).
 - `alias vim='nvim'` (`zshrc`) — typing `vim` in an interactive shell gets Neovim.
 

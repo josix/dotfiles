@@ -816,6 +816,7 @@ Almost every visual/behavioral toggle in this config lives under
 | `<leader>uT` | Treesitter highlighting |
 | `<leader>ub` | Dark/light background |
 | `<leader>uD` | Dim code outside the current scope — the lit region follows the cursor between functions/blocks (treesitter-aware); lighter-weight alternative to zen mode. **On by default** here (`plugins/snacks.lua`); this key toggles it off |
+| `<leader>uo` | Focus Mode — centered cursor line (`scrolloff=999`) plus the scope dimming above, toggled as one unit. **On by default** here (`config/options.lua` + `config/keymaps.lua`); toggle off for a normal edit flow |
 | `<leader>ua` | Animations |
 | `<leader>ug` | Indent guides |
 | `<leader>uS` | Smooth scroll |
@@ -929,8 +930,8 @@ LazyVim defaults you accepted) and is live right now.
 
 ## 13. What's already customized
 
-Exactly eight things differ from stock LazyVim in this config. Everything
-else you've read above is the LazyVim default — if you reset these eight,
+Exactly ten things differ from stock LazyVim in this config. Everything
+else you've read above is the LazyVim default — if you reset these ten,
 you'd have a stock LazyVim install (plus your 18 chosen extras).
 
 1. **`jj` → Escape in insert mode**
@@ -988,6 +989,23 @@ you'd have a stock LazyVim install (plus your 18 chosen extras).
    enabled with a 500ms delay and an `author, date - summary` format
    (see the callout in ch. 9). `<leader>uB` toggles it (`ub` was taken by
    the dark-background toggle); delete the file for stock behavior.
+
+9. **Tab cycles completion suggestions**
+   `nvim/lua/plugins/blink.lua` — `<Tab>`/`<S-Tab>` select the next/previous
+   blink.cmp suggestion while the popup is open (then fall through to
+   snippet-jump, then a literal Tab). Stock blink.cmp leaves Tab inert on
+   the popup; Enter still accepts either way. Delete the file for stock
+   behavior.
+
+10. **Focus Mode — centered cursor line, on by default**
+    `nvim/lua/config/options.lua` sets `scrolloff = 999`, pinning the cursor
+    line to the vertical center so your eyes stay in one place while the
+    text scrolls under it (it also makes the auto-center-after-jumps
+    customization above mostly redundant while active). `<leader>uo`
+    (`config/keymaps.lua`, a `Snacks.toggle`) toggles it together with the
+    `Snacks.dim` scope dimming (item on `<leader>uD`, ch. 11) as one "Focus
+    Mode" switch — off restores `scrolloff=4` and undims for a normal edit
+    flow.
 
 ---
 
@@ -1150,6 +1168,8 @@ the new versions, since it's what pins exact commits for reproducibility.
 | `<leader>.` | Scratch buffer |
 | `<leader>uz` | Zen mode |
 | `<leader>uD` | Dim code outside the current scope (on by default) |
+| `<leader>uo` | Focus Mode — centered cursor + scope dim (on by default) |
+| `Tab` / `S-Tab` (insert, popup open) | Next / prev completion suggestion; Enter accepts |
 | `<leader>mm` | Toggle minimap |
 | `<leader>mp` | Toggle markdown browser preview (markdown buffers) |
 | `<leader>n` | Notification history |

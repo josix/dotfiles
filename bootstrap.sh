@@ -58,6 +58,7 @@ link "$DOTFILES_DIR/nvim"        "$HOME/.config/nvim"
 
 mkdir -p "$HOME/.config/kitty"
 link "$DOTFILES_DIR/kitty.conf"  "$HOME/.config/kitty/kitty.conf"
+link "$DOTFILES_DIR/kitty/dark-theme.auto.conf" "$HOME/.config/kitty/dark-theme.auto.conf"
 
 # 6. Next steps
 cat <<EOF

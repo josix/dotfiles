@@ -354,12 +354,18 @@ already applied.
 > `zsh -lic` — the `i` makes them **interactive**, so `.zshrc` (and its
 > aliases/PATH setup) does apply there.
 
-> **Gotcha 8: `kitten @` only works from kitty-spawned processes.**
-> Remote control here works over an environment-inherited control channel
-> that only exists in processes kitty itself launched (like step 1's shell).
-> `listen_on` is unset in this config, so there's no separate socket — a
-> shell outside kitty (e.g. a plain Terminal.app window) has no way to reach
-> `kitten @` at all.
+> **Gotcha 8: `kitten @` needs a working control channel — and background
+> launches don't inherit one.**
+> Processes kitty spawns get `KITTY_LISTEN_ON` in their environment, which
+> is how step 1's shell reaches `kitten @`. There is also a real socket:
+> `listen_on unix:/tmp/kitty` (3371) makes kitty listen on
+> `/tmp/kitty-<pid>`, reachable from outside kitty via
+> `kitten @ --to unix:/tmp/kitty-<pid>`. The trap: for `--type=background`
+> launches (like `cmd+j`'s `toggle-stack.py`, 3497), `KITTY_LISTEN_ON` is an
+> inherited file descriptor (`fd:N`) that Python's `subprocess` closes, so
+> every `kitten @` call from the script fails silently. The script therefore
+> derives the socket path from its parent pid (kitty itself) and passes it
+> explicitly with `--to` — see `kitty/toggle-stack.py`.
 
 ---
 
@@ -385,6 +391,15 @@ The intended loop: `Ctrl-Z` inside vim or `claude` suspends it to the
 background; `cmd+f` resumes it directly if it's the only suspended job
 (sends `fg` + Enter); `cmd+shift+f` opens the picker instead when you have
 multiple suspended jobs and need to choose which one to bring back.
+
+> **Gotcha: Ctrl-Z used to leave the shell with broken keys.**
+> TUIs like nvim and `claude` enable kitty's enhanced keyboard protocol and
+> can leave it active when suspended with `Ctrl-Z`, so the shell receives
+> CSI-u encoded keys — `Ctrl-A`/`Ctrl-E`/`Esc` stop working at the prompt.
+> Fixed on the zsh side: a `precmd` hook (`_kitty_kbd_reset`, `zshrc`) pops
+> the protocol state (`\e[<u`) before every prompt, so the shell always
+> starts in legacy key encoding. It only runs when `$KITTY_WINDOW_ID` is
+> set, i.e. inside kitty.
 
 Why this exists at all: `ctrl+a>a` and `cmd+shift+c` (3378-3379) each spawn a
 _fresh_ `claude` process in a new pane — fine for starting a new session, but
@@ -435,6 +450,15 @@ instead of spinning up a second one.
 > and no color palette. **Fix:** either run `kitten themes Zenburn` on the
 > new machine to regenerate the file, or start tracking
 > `current-theme.conf` in this repo so `bootstrap.sh` carries it over too.
+
+> **Exception: the dark-mode palette IS tracked.**
+> `kitty/dark-theme.auto.conf` (in this repo) is the Zenburn palette kitty
+> auto-loads when macOS is in dark mode, symlinked to
+> `~/.config/kitty/dark-theme.auto.conf` by `bootstrap.sh` like
+> `kitty.conf`. It diverges from stock Zenburn in
+> one spot: `color1` is the classic Zenburn red `#cc9393` (4.09:1 contrast
+> on the `#3f3f3f` background) instead of `#705050` (1.48:1), which made
+> red text — git diff deletions, errors — nearly invisible in dark mode.
 
 > **Gotcha 5: the theme leaves border colors unset.**
 > Zenburn's `current-theme.conf` doesn't define `active_border_color` or
