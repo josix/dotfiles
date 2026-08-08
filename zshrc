@@ -270,6 +270,16 @@ fzf-job-picker() {
 zle -N fzf-job-picker
 bindkey '^Xj' fzf-job-picker
 
+# TUIs (nvim, claude, ...) enable kitty's enhanced keyboard protocol; when
+# suspended with Ctrl-Z it can stay active, leaving the shell receiving
+# CSI-u encoded keys (Ctrl-A/Ctrl-E/Esc stop working). Pop the protocol
+# state before every prompt so the shell always sees legacy key encoding.
+if [[ -n $KITTY_WINDOW_ID ]]; then
+  _kitty_kbd_reset() { printf '\e[<u' > /dev/tty }
+  autoload -Uz add-zsh-hook
+  add-zsh-hook precmd _kitty_kbd_reset
+fi
+
 # export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/qemu/podman.sock"
 
 
