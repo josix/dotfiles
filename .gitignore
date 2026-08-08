@@ -20,3 +20,4 @@ graphify-out/
 graphify-out/
 explain-out/
 # <<< agent-flow managed <<<
+kitty/__pycache__/
