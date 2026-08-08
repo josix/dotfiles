@@ -91,6 +91,7 @@ operation.
 | `<S-h>` | Previous buffer | `Cmd+Shift+[` (prev tab) |
 | `<S-l>` | Next buffer | `Cmd+Shift+]` (next tab) |
 | `[b` / `]b` | Previous / next buffer | prev/next tab |
+| `Option+w` | Delete (close) buffer in one keystroke, keeps window layout | `Cmd+W` (close tab) — yours is custom, see below |
 | `<leader>bd` | Delete (close) buffer, keeps window layout | `Cmd+W` (close tab) |
 | `<leader>bD` | Delete buffer **and discard unsaved changes** (force) | `Cmd+W`, "Don't Save" |
 | `<leader>bo` | Delete all other buffers | "Close Other Tabs" |
@@ -115,9 +116,15 @@ what actually removes a buffer from the buffer list.
 | `:bd 3` / `:bd name` | Close a specific buffer by number or name |
 | `:%bd` | Close all buffers |
 
-Prefer `<leader>bd` over raw `:bd` when a file is visible in a split — it
-uses snacks' bufdelete, which closes the buffer *without* collapsing your
-window layout, while raw `:bd` also closes any window showing that buffer.
+Prefer `Option+w` or `<leader>bd` over raw `:bd` when a file is visible in a
+split — both use snacks' bufdelete, which closes the buffer *without*
+collapsing your window layout, while raw `:bd` also closes any window showing
+that buffer.
+
+**Your `Option+w` customization**: a single-keystroke buffer close in normal
+mode, matching the Cmd+W habit (kitty's `macos_option_as_alt` delivers it to
+nvim as `Alt+w`; custom mapping, `nvim/lua/config/keymaps.lua`). It does the
+same thing as `<leader>bd`, just faster.
 
 **Reopening a buffer you just closed** (the "reopen closed tab" of Neovim):
 

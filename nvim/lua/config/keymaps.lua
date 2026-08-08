@@ -32,6 +32,13 @@ Snacks.toggle({
   end,
 }):map("<leader>uo")
 
+-- One-keystroke buffer close, Cmd+W style (kitty sends Option+w as Alt+w).
+-- Snacks.bufdelete keeps the window layout intact, unlike :bdelete which
+-- also closes the split
+vim.keymap.set("n", "<M-w>", function()
+  Snacks.bufdelete()
+end, { desc = "Close buffer" })
+
 -- Copy the current file's absolute path to the system clipboard
 vim.keymap.set("n", "<leader>cp", function()
   local path = vim.fn.expand("%:p")
