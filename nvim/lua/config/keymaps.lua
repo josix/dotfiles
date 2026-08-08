@@ -15,6 +15,23 @@ vim.keymap.set("t", "<C-]>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 vim.keymap.set("i", "<M-BS>", "<C-w>", { desc = "Delete word backward" })
 vim.keymap.set("c", "<M-BS>", "<C-w>", { desc = "Delete word backward" })
 
+-- Focus mode: centered cursor + dim outside current scope (both are on by
+-- default via options.lua/snacks.lua); toggle off to get a normal edit flow
+Snacks.toggle({
+  name = "Focus Mode",
+  get = function()
+    return vim.o.scrolloff == 999
+  end,
+  set = function(state)
+    vim.o.scrolloff = state and 999 or 4
+    if state then
+      Snacks.dim()
+    else
+      Snacks.dim.disable()
+    end
+  end,
+}):map("<leader>uo")
+
 -- Copy the current file's absolute path to the system clipboard
 vim.keymap.set("n", "<leader>cp", function()
   local path = vim.fn.expand("%:p")

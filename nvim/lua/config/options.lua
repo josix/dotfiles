@@ -5,6 +5,9 @@
 -- Absolute line numbers only (LazyVim enables relativenumber by default)
 vim.opt.relativenumber = false
 
+-- Keep the cursor line vertically centered while navigating
+vim.opt.scrolloff = 999
+
 -- Disable all snacks.nvim animations (smooth scroll, resize, etc.)
 vim.g.snacks_animate = false
 
