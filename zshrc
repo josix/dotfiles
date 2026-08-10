@@ -138,6 +138,7 @@ alias ps="procs"
 alias du="dust"
 alias df="duf"
 alias diff="delta"
+alias glow="glow --pager"
 alias f='fd . | rg'
 alias tmuxn='tmux new -s $(basename $PWD)'
 # kitty: copy terminfo to remote hosts so tmux/clear work over ssh
