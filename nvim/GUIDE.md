@@ -907,6 +907,19 @@ LazyVim defaults you accepted) and is live right now.
   version info/completion/actions (`extras/lang/rust.lua:20-36`).
 - **venv-selector** (`<leader>cv`) lets you pick which Python virtualenv
   pyright/ruff should use, per project (`extras/lang/python.lua:96-107`).
+  Three ways to point nvim at the right venv, in order of preference:
+  1. **Activate before launching**: `source .venv/bin/activate && nvim` —
+     pyright picks up `$VIRTUAL_ENV` automatically, zero config.
+  2. **Pick interactively**: `<leader>cv` in a Python buffer — venv-selector
+     searches the cwd (and common managers like poetry/pyenv/conda) and
+     restarts the LSP with the chosen interpreter. It remembers the choice
+     per project across sessions.
+  3. **Pin it in the repo**: drop a `pyrightconfig.json` at the project root:
+     ```json
+     { "venvPath": ".", "venv": ".venv" }
+     ```
+     (`venvPath` is the directory *containing* the venv, `venv` is its
+     folder name.) This wins over everything and works for teammates too.
 - **markdown**: three tools cooperate — `render-markdown.nvim` draws
   headings/checkboxes/code blocks inline as you edit (toggle with
   `<leader>um`), `markdown-preview.nvim` opens a live browser preview
