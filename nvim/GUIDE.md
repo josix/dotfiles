@@ -460,6 +460,28 @@ the whole function, `cac` changes an entire class.
   `keymaps.lua:91-92`, comment engine from `ts-comments.nvim`,
   `coding.lua:28-32`).
 
+### Paste something you deleted earlier — registers
+
+Every delete and yank lands in a register, so "I deleted the wrong thing
+three edits ago" is recoverable without undo:
+
+| Register | Holds | Paste with |
+|---|---|---|
+| `"1`–`"9` | Last nine (multi-line) deletes, newest first | `"1p`, `"2p`, … |
+| `"0` | Last **yank** — never clobbered by deletes | `"0p` |
+| `"-` | Last small (less-than-a-line) delete | `"-p` |
+
+- The killer trick: `"1p` then `.` pastes `"2`, the next `.` pastes `"3` —
+  so `"1p...` walks backward through your delete history until the right
+  text appears.
+- `"0p` fixes the classic "yanked, then deleted something, now `p` pastes
+  the wrong thing" — the yank is still sitting safely in `"0`.
+- See what's in every register with `:registers`, or fuzzy-pick one with
+  `<leader>s"` (snacks picker) and paste it straight from the list.
+- Want full yank-history cycling after a paste? That's the `coding.yanky`
+  extra (`:LazyExtras`) — not enabled in this config; the built-ins above
+  usually suffice.
+
 ### I miss multi-cursor
 
 Neovim has no literal multi-cursor, but three tools cover the same ground:
