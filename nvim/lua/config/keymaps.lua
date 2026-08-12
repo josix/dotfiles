@@ -39,6 +39,14 @@ vim.keymap.set("n", "<M-w>", function()
   Snacks.bufdelete()
 end, { desc = "Close buffer" })
 
+-- Option+1..9 jumps straight to the Nth buffer as displayed in the bufferline,
+-- so the number always matches what the tab bar shows
+for i = 1, 9 do
+  vim.keymap.set("n", "<M-" .. i .. ">", function()
+    require("bufferline").go_to(i, true)
+  end, { desc = "Go to buffer " .. i })
+end
+
 -- Copy the current file's absolute path to the system clipboard
 vim.keymap.set("n", "<leader>cp", function()
   local path = vim.fn.expand("%:p")
