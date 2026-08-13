@@ -23,9 +23,9 @@ bare `kitty.conf` line number unless prefixed with another filename (e.g.
 
 ## 0. How to use this guide
 
-Read chapters 1-8 top to bottom — that's your daily driver. Chapters 9-13 are
+Read chapters 1-8 top to bottom — that's your daily driver. Chapters 9-14 are
 reference material: appearance internals, the stock-kitty inventory, how to
-change things, and troubleshooting.
+change things, the quick access dropdown, and troubleshooting.
 
 **60-second orientation:**
 
@@ -586,7 +586,76 @@ down.
 
 ---
 
-## 13. Troubleshooting + cheat sheet
+## 13. Quake-style quick access terminal
+
+Set up 2026-08-13. A dropdown terminal (Guake/Quake style) that slides in
+from the top of the screen on a global hotkey, on top of whatever app you're
+in, and hides when it loses focus.
+
+This is **not** wired through `kitty.conf` — it's kitty's built-in
+`quick-access-terminal` kitten (added in kitty 0.42), configured by its own
+file:
+
+| Piece      | Where                                                                                                             |
+| ---------- | ----------------------------------------------------------------------------------------------------------------- |
+| Config     | `kitty/quick-access-terminal.conf` (repo), symlinked to `~/.config/kitty/quick-access-terminal.conf`              |
+| Toggle cmd | `kitten quick-access-terminal`                                                                                    |
+| Hotkey     | macOS Services: System Settings → Keyboard → Keyboard Shortcuts → Services → General → "Quick access to kitty" |
+
+Current settings in `quick-access-terminal.conf`: `edge top` (drops from the
+top edge), `lines 25` (height in terminal lines), `background_opacity 0.9`,
+and `hide_on_focus_loss yes` (click anywhere else and it vanishes, classic
+Guake behavior). The window otherwise inherits everything from your normal
+`kitty.conf` — same font, theme, and shell.
+
+Ways to toggle it:
+
+- The global hotkey bound in System Settings (works from any app).
+- Run `kitten quick-access-terminal` in any terminal — first run shows it,
+  running it again hides it.
+- `ctrl+d` inside the dropdown closes it entirely.
+
+> **Gotcha: "Quick access to kitty" missing from the Services list.** The
+> service is declared by a _nested_ helper app,
+> `/Applications/kitty.app/Contents/kitty-quick-access.app`, which macOS
+> doesn't always index on its own — the Services pane's "General" category
+> simply doesn't appear. Fix (what was done on 2026-08-13): force-register
+> the helper and flush the Services cache, then fully quit and reopen System
+> Settings (it caches the list):
+>
+> ```sh
+> /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
+>   -f /Applications/kitty.app/Contents/kitty-quick-access.app
+> /System/Library/CoreServices/pbs -flush
+> ```
+>
+> If it still doesn't show, log out and back in. Fallback that skips the
+> Services system entirely: bind a Raycast hotkey to run
+> `/Applications/kitty.app/Contents/MacOS/kitten quick-access-terminal`.
+
+> **Gotcha: dropdown doesn't span the full screen width.** The panel sizes
+> itself to the screen area macOS reports as available, which _excludes an
+> always-visible Dock_ — with the Dock pinned to the left edge, the dropdown
+> started ~10% in from the left. There's no kitty option to overlap the
+> Dock; fixed on 2026-08-13 by enabling Dock auto-hide
+> (`defaults write com.apple.dock autohide -bool true && killall Dock`),
+> after which the dropdown gets the full width. Revert with the same command
+> and `-bool false`. The dropdown computes its geometry at process start, so
+> after any Dock change, close it fully (`ctrl+d`) and toggle it back up.
+
+To change the dropdown's look or behavior, edit
+`kitty/quick-access-terminal.conf` — options are documented in
+`kitten quick-access-terminal --help` and the shipped default config at
+`/Applications/kitty.app/Contents/Resources/doc/kitty/html/_downloads/*/quick_access_terminal.conf`.
+Notable ones not currently set: `edge` accepts `bottom`/`left`/`right`/`center`,
+`kitty_override name=value` tweaks kitty settings just for this window (e.g.
+`kitty_override font_size=20`), and `start_as_hidden yes` if you ever launch
+it at login. Changes take effect the next time the dropdown process starts
+(quit it with `ctrl+d`, then toggle it back up).
+
+---
+
+## 14. Troubleshooting + cheat sheet
 
 ### Discovery tools — how to keep learning this config without a guide
 
