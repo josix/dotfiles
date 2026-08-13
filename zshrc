@@ -211,6 +211,14 @@ for _cmd in nvm node npm npx; do
   eval "${_cmd}() { _load_nvm; ${_cmd} \"\$@\"; }"
 done
 unset _cmd
+# Eagerly put the default node's bin on PATH (without sourcing nvm.sh) so
+# non-interactive children (Claude Code, MCP servers, scripts) that resolve
+# node/npx from PATH alone still find them.
+_nvm_default="$(cat "$NVM_DIR/alias/default" 2>/dev/null)"
+[[ -d "$NVM_DIR/versions/node/$_nvm_default" ]] || \
+  _nvm_default="$(command ls "$NVM_DIR/versions/node" 2>/dev/null | sort -V | tail -1)"
+[[ -n "$_nvm_default" ]] && path=("$NVM_DIR/versions/node/$_nvm_default/bin" $path)
+unset _nvm_default
 # If the completion file does not exist, generate it and then source it
 # Otherwise, source it and regenerate in the background
 if [[ ! -f "$ZSH_CACHE_DIR/completions/_helm" ]]; then
