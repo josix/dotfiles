@@ -204,6 +204,7 @@ Git and GitHub pickers (same file, lines 74-82) — useful once `lazygit`
 | Key | Action |
 |---|---|
 | `<leader>gd` | Git diff (hunks) |
+| `<leader>gv` | Git diff view (side-by-side, diffview.nvim, toggles) |
 | `<leader>gs` | Git status |
 | `<leader>gS` | Git stash |
 | `<leader>gi` / `<leader>gI` | GitHub issues (open / all) |
@@ -718,6 +719,8 @@ These come from the snacks picker (your active picker), not gitsigns:
 |---|---|
 | `<leader>gd` | Picker over all changed hunks in the repo, with diff preview |
 | `<leader>gD` | Same, but diffed against `origin` and grouped by file |
+| `<leader>gv` | Side-by-side diff view of the working tree (diffview.nvim, toggles) |
+| `<leader>gF` | File history for current file in the diff view |
 | `<leader>gs` | Git status — pick among modified/untracked files |
 | `<leader>gS` | Git stash — browse and apply stashes |
 

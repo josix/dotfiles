@@ -17,6 +17,17 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     vim.api.nvim_set_hl(0, "LspReferenceText", word_hl)
     vim.api.nvim_set_hl(0, "LspReferenceRead", word_hl)
     vim.api.nvim_set_hl(0, "LspReferenceWrite", word_hl)
+    -- Gitsigns hunk preview (<leader>ghp): the added/removed regions inherit
+    -- zenburn's Diff* backgrounds, which barely differ from the #3f3f3f
+    -- editor bg. Give the line tints a clear step up and the word-level
+    -- marks a much stronger one.
+    vim.api.nvim_set_hl(0, "GitSignsAddPreview", { bg = "#33502f" })
+    vim.api.nvim_set_hl(0, "GitSignsDeletePreview", { fg = "#cc9393", bg = "#502f2f" })
+    vim.api.nvim_set_hl(0, "GitSignsDeleteVirtLn", { fg = "#cc9393", bg = "#502f2f" })
+    vim.api.nvim_set_hl(0, "GitSignsAddLnInline", { bg = "#4f7a4f", bold = true })
+    vim.api.nvim_set_hl(0, "GitSignsChangeLnInline", { fg = "#1f1f1f", bg = "#7a7a45", bold = true })
+    vim.api.nvim_set_hl(0, "GitSignsDeleteLnInline", { bg = "#7a4a4a", bold = true })
+    vim.api.nvim_set_hl(0, "GitSignsDeleteVirtLnInLine", { bg = "#7a4a4a", bold = true })
   end,
 })
 
